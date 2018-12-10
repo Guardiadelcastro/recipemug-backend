@@ -5,6 +5,9 @@ const passport = require('passport');
 router.get('/',(req,res,next)=>{
     res.render('index');
 });
+
+// Login's Router.  
+
 router.get('/signup',(req,res,next)=>{
     res.render('signup');
 });
@@ -28,6 +31,6 @@ router.get('/profile',(req,res,next)=>{
     res.render('profile')
 });
 
-
+// Reipe's Router
 
 module.exports = router;
