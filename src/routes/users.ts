@@ -1,9 +1,10 @@
-const express = require('express');
+import * as express from 'express';
+import * as passport from 'passport';
+import * as jwt from 'jsonwebtoken';
+import {User} from '../models/user';
+import {configuration} from '../passport/index';
+
 const router = express.Router();
-let passport = require('passport');
-let jwt = require('jsonwebtoken');
-const User = require('../models/user');
-let config = require('../passport');
 
 router.post('/register', function(req, res) {
     if (!req.body.email || !req.body.password) {
@@ -55,7 +56,8 @@ router.post('/auth', (req, res) => {
         user.comparePassword(req.body.password, function(err, isMatch) {
           if (isMatch && !err) {
             // Create token if the password matched and no error was thrown
-            var token = jwt.sign(user, config.auth.secret, {
+            var token = jwt.sign(user, configuration
+            .auth.secret, {
               expiresIn: "2 days"
             });
             res.json({
@@ -75,11 +77,17 @@ router.post('/auth', (req, res) => {
   });
   
   // Example of required auth: protect dashboard route with JWT
+
+  interface RequestWithUser extends express.Request {
+    user: typeof User
+  }
+
   router.get('/dashboard', passport.authenticate('jwt', {
     session: false
-  }), function(req, res) {
-    res.send('It worked! User id is: ' + req.user._id + '.');
+  }), function(req: RequestWithUser, res) {
+    const user = req.user as any
+    res.send('It worked! User id is: ' + user._id + '.');
   });
   
   
-  module.exports = router;
+  export default router;

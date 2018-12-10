@@ -1,9 +1,10 @@
 import { Document, Schema, Model, model } from 'mongoose';
 
-
+/*
 export interface Ingredients {
   name: string;
 } 
+*/
 
 
 export interface IRecipe extends Document {

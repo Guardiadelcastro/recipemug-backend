@@ -1,8 +1,15 @@
-let mongoose = require('mongoose');
-let bcrypt = require('bcrypt');
-let Schema = mongoose.Schema;
+import * as bcrypt  from 'bcrypt';
+import { Document, Schema, Model, model } from 'mongoose';
 
-var UserSchema = new Schema({
+
+
+export interface IUsers extends Document {
+  email: string,
+  password: string,
+  comparePassword: typeof comparePassword
+}
+
+const  UserSchema: Schema = new Schema({
   email: {
     type: String,
     lowercase: true,
@@ -17,7 +24,7 @@ var UserSchema = new Schema({
 
 // Hash the user's password before inserting a new user
 UserSchema.pre('save', function(next) {
-  var user = this;
+  var user = this as IUsers;  //Fallo del tipado.  
   if (this.isModified('password') || this.isNew) {
     bcrypt.genSalt(10, function(err, salt) {
       if (err) {
@@ -36,8 +43,7 @@ UserSchema.pre('save', function(next) {
   }
 });
 
-// Compare password input to password saved in database
-UserSchema.methods.comparePassword = function(pw, cb) {
+function comparePassword(pw: string, cb) {
   bcrypt.compare(pw, this.password, function(err, isMatch) {
     if (err) {
       return cb(err);
@@ -46,5 +52,10 @@ UserSchema.methods.comparePassword = function(pw, cb) {
   });
 };
 
+// Compare password input to password saved in database
+UserSchema.methods.comparePassword = comparePassword
+
+
+
 // Export the model
-module.exports = mongoose.model('User', UserSchema);
+export const User: Model<IUsers> = model<IUsers>('User', UserSchema);

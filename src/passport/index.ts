@@ -1,4 +1,4 @@
-module.exports = {
+export const configuration = {
     auth: {
       secret: 'Little secret, big responsability...'
     },

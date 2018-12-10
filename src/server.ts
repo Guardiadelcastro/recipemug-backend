@@ -1,22 +1,22 @@
+import * as express from 'express';
+import * as path from 'path';
+//import * as favicon from 'serve-favicon';
+import * as morgan from 'morgan';
+import * as cookieParser from 'cookie-parser';
+import * as bodyParser from 'body-parser';
 
-const express = require("express");
-const path = require('path');
-const favicon = require('serve-favicon');
-const morgan = require('morgan');
-const cookieParser = require('cookie-parser');
-const bodyParser = require('body-parser');
-const mongoose = require('mongoose');
-const passport = require('passport');
-
-// initializations
+//initializations
+import {connect} from 'mongoose';
+import * as passport from 'passport';
+import {configuration} from './passport/index';
+import routes from './routes/index';
+import users from './routes/users';
+import {addUserId} from './passport/passport';
 const app = express();
-const config = require('./passport');
-var routes = require('./routes/index');
-var users = require('./routes/users');
-require('./passport/passport');
+
 
 //connet to db
-mongoose.connect(config.database.local);
+connect(configuration.database.local);
 
 // settings
 
@@ -32,16 +32,30 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 //init passport
 app.use(passport.initialize());
-require('./passport/passport')(passport);
+addUserId(passport);
+
 
 // routes
 app.use('/', routes);
 app.use('/users', users);
 
 // catch 404 and forward to error handler
+
+class MyError extends Error {
+
+  private status: number;
+  constructor(message: string, status: number=500) {
+    super(message);
+    this.status;
+  }
+  getStatus() {
+    return this.status;
+  }
+}
+
 app.use(function(req, res, next) {
-  var err = new Error('Not Found');
-  err.status = 404;
+
+var err = new MyError('Not Found', 404); //ERROR. ;
   next(err);
 });
 // will print stacktrace
@@ -57,8 +71,13 @@ if (app.get('env') === 'development') {
 
 // production error handler
 // no stacktraces leaked to user
-app.use(function(err, req, res, next) {
-  res.status(err.status || 500);
+app.use(function(err: MyError|Error, req, res, next) {
+  if(err instanceof MyError) {
+    res.status(err.getStatus());
+  } else {
+    res.status(500);
+  }
+  
   res.render('error', {
     message: err.message,
     error: {}
