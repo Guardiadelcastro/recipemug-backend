@@ -29,7 +29,21 @@ En `passport.ts` podemos encontrar una función que le agrega un id util mediant
 
 ## Routes
 
-En la carpeta `routes` podemos encontrar dos 3 carpetas las rutas principales de la api en `index.ts` las rutas de los usuarios en `users.ts` y  en `recipes.ts`.
+En la carpeta `routes` podemos encontrar dos 3 carpetas las rutas principales de la api en `index.ts` las rutas de los usuarios en `users.ts` y  en `recipes.ts` podemos encontrar las rutas de recetas.
+
+## Index.ts
+
+De momento se encuentra vaciá pero esta por que lleve esta clase el mensaje de bienvenida la api.
+
+## Users.ts
+
+ Encontramos las rutas que que responden a la api a la hora de registrar y autentificar usuarios.
+![image](../images/usersts.JPG)
+
+## Recipe.ts
+
+Aquí encontramos las rutas de recetas.
+
 
 
 ## como configurar Server.ts
