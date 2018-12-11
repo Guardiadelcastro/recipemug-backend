@@ -11,6 +11,7 @@ import * as passport from 'passport';
 import {configuration} from './passport/index';
 import routes from './routes/index';
 import users from './routes/users';
+import recipes from './routes/recipes';
 import {addUserId} from './passport/passport';
 const app = express();
 
@@ -38,6 +39,7 @@ addUserId(passport);
 // routes
 app.use('/', routes);
 app.use('/users', users);
+app.use('/recipes', recipes);
 
 // catch 404 and forward to error handler
 

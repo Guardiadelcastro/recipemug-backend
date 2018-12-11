@@ -31,4 +31,4 @@ const RecipeScheme: Schema = new Schema ({
   created: { type: Date,  default: Date.now()}
 });
 
-export const Recipe: Model<IRecipe> = model<IRecipe>('recipes',RecipeScheme);
+export const Recipe: Model<IRecipe> = model<IRecipe>('recipes', RecipeScheme);

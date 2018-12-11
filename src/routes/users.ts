@@ -3,44 +3,20 @@ import * as passport from 'passport';
 import * as jwt from 'jsonwebtoken';
 import {User} from '../models/user';
 import {configuration} from '../passport/index';
+import {registerUser} from '../controllers/UserController';
 
 const router = express.Router();
 
-router.post('/register', function(req, res) {
-    if (!req.body.email || !req.body.password) {
-      res.json({
-        success: false,
-        message: 'Please enter email and password.'
-      });
-    } else {
-      let newUser = new User({
-        email: req.body.email,
-        password: req.body.password
-      });
-  
-newUser.save(function(err) {
-      if (err) {
-        return res.json({
-          success: false,
-          message: 'That email address already exists.'
-        });
-      }
-      res.json({
-        success: true,
-        message: 'Successfully created new user.'
-      });
-    });
-  }
-});
+router.post('/register',(req: express.Request, res: express.Response) => {registerUser(req.body)});
 
-router.get('/', function(req, res) {
+router.get('/', function(req: express.Request, res: express.Response) {
     User.find({}, function(err, users) {
       res.json(users);
     });
 });
 
 // Authenticate the user and get a JSON Web Token to include in the header of future requests.
-router.post('/auth', (req, res) => {
+router.post('/auth', (req: express.Request , res: express.Response) => {
     User.findOne({
       email: req.body.email
     }, function(err, user) {
@@ -84,7 +60,7 @@ router.post('/auth', (req, res) => {
 
   router.get('/dashboard', passport.authenticate('jwt', {
     session: false
-  }), function(req: RequestWithUser, res) {
+  }), function(req: RequestWithUser, res: express.Response) {
     const user = req.user as any
     res.send('It worked! User id is: ' + user._id + '.');
   });
