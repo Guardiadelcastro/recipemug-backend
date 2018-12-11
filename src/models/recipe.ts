@@ -2,10 +2,10 @@ import { Document, Schema, Model, model } from 'mongoose';
 
 /*
 export interface Ingredients {
-  name: string;
+  name: string; 
 } 
 */
-
+//RAUL.
 
 export interface IRecipe extends Document {
   title: string,

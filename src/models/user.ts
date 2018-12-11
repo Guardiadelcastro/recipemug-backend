@@ -6,7 +6,7 @@ import { Document, Schema, Model, model } from 'mongoose';
 export interface IUsers extends Document {
   email: string,
   password: string,
-  comparePassword: typeof comparePassword
+  comparePassword: typeof comparePassword  //RAUL. 
 }
 
 const  UserSchema: Schema = new Schema({
@@ -24,7 +24,7 @@ const  UserSchema: Schema = new Schema({
 
 // Hash the user's password before inserting a new user
 UserSchema.pre('save', function(next) {
-  var user = this as IUsers;  //Fallo del tipado.  
+  var user = this as IUsers;  //RAUL.   
   if (this.isModified('password') || this.isNew) {
     bcrypt.genSalt(10, function(err, salt) {
       if (err) {

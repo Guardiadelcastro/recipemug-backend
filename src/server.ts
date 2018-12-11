@@ -43,7 +43,7 @@ app.use('/recipes', recipes);
 
 // catch 404 and forward to error handler
 
-class MyError extends Error {
+class MyError extends Error {  //PREGUNTA RAUL. 
 
   private status: number;
   constructor(message: string, status: number=500) {
@@ -57,7 +57,7 @@ class MyError extends Error {
 
 app.use(function(req, res, next) {
 
-var err = new MyError('Not Found', 404); //ERROR. ;
+var err = new MyError('Not Found', 404);
   next(err);
 });
 // will print stacktrace

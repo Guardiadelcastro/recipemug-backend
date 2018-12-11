@@ -16,7 +16,7 @@ export function addNewRecipe(body: JSON) {
     created: new Date(),
     updated: new Date()
   });
-  
-  return newRecipe; 
+
+  return newRecipe.save(); 
 }
 
