@@ -5,12 +5,21 @@ import {registerUser, getAllUsers, userAuthentication} from '../controllers/User
 
 const router = express.Router();
 
-router.post('/register',(req: express.Request, res: express.Response) => {registerUser(req.body)}); //usar promesas. 
+router.post('/register', (req: express.Request, res: express.Response) => { 
+  registerUser(req.body).then(message => {res.send(message)})
+                        .catch(err => { res.status(500).send(err)});
+});
 
-router.get('/', (req: express.Request, res: express.Response) => {getAllUsers()});
+router.get('/', (req: express.Request, res: express.Response) => {
+  getAllUsers().then((users) => {res.json(users)})
+              .catch((err) => {res.status(500).send(err)});
+});
 
 // Authenticate the user and get a JSON Web Token to include in the header of future requests.
-router.post('/auth', (req: express.Request, res: express.Response) => {userAuthentication(req.body)});
+router.post('/auth', (req: express.Request, res: express.Response) => {
+  userAuthentication(req.body).then((user) => { res.json(user)})
+                              .catch((err) => {res.status(500).send(err)});
+});
   
   // Example of required auth: protect dashboard route with JWT
 
@@ -26,4 +35,4 @@ router.post('/auth', (req: express.Request, res: express.Response) => {userAuthe
   });
   
   
-  export default router;
+  export = router;

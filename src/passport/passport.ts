@@ -7,7 +7,7 @@ import {configuration}  from '../passport/index';
 export const addUserId = function(passport) {
   let opts = {
     jwtFromRequest: ExtractJwt.fromAuthHeaderWithScheme("jwt"),
-    secretOrKey: configuration.auth.secret //PREGUNTAR A RAUL. 
+    secretOrKey: configuration.auth.secret  
   };
 
   passport.use(new Strategy(opts, (jwt_payload, done) => {

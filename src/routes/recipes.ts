@@ -1,21 +1,35 @@
 import * as express from 'express';
-import { getAllRecipes, getRecipeById, addNewRecipe } from '../controllers/RecipeConttroller';
+import { getAllRecipes, getRecipeById, addNewRecipe, deleteRecipeById, updateRecipe } from '../controllers/RecipeConttroller';
 const router = express.Router();
 
 
 router.get('/:id', (req: express.Request, res: express.Response) => {
-  getRecipeById(req.body.id).then(recipe => {res.jsonp(recipe)})
+  getRecipeById(req.params.id).then(recipe => {res.json(recipe)})
                             .catch(err => {res.status(500).send(err)});
-})
+});
+
 router.get('/', (req: express.Request, res: express.Response) =>  {
  getAllRecipes().then(recipes => {res.json(recipes)})
                 .catch(err => res.status(500).send(err));
 });
 
-router.post('/recipe', (req: express.Request, res: express.Response) => {
+router.post('/', (req: express.Request, res: express.Response) => {
   addNewRecipe(req.body).then(() => res.send('New Recipe Created'))
-                       // .catch((err) => res.status(500).send(err));
+                        .catch((err) => res.status(500).send(err));
  // res.send(addNewRecipe(req.body));
 });
 
-export default router;
+router.delete('/:id', (req: express.Request, res: express.Response) => {
+  deleteRecipeById(req.params.id).then((recipe) => res.send('Recipe deleted with success' + recipe)) 
+                               .catch((err) => res.status(500).send(err));
+}); 
+
+/*
+router.put('/:id', (req: express.Request, res: express.Response) => {
+  const idToUpdate = req.params.id;
+  const updatedRecipe = req.params.body;
+  updateRecipe(idToUpdate, updatedRecipe);
+})
+*/
+
+export = router;

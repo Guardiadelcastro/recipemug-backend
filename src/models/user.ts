@@ -1,12 +1,17 @@
 import * as bcrypt  from 'bcrypt';
 import { Document, Schema, Model, model } from 'mongoose';
 
-
-
-export interface IUsers extends Document {
+export interface DTOUser {
+  uuid: string,
   email: string,
   password: string,
-  comparePassword: typeof comparePassword  //RAUL. 
+}
+
+export interface ModelIUsers extends Document {
+  _id: string,
+  email: string,
+  password: string,
+  comparePassword: typeof comparePassword  
 }
 
 const  UserSchema: Schema = new Schema({
@@ -24,7 +29,7 @@ const  UserSchema: Schema = new Schema({
 
 // Hash the user's password before inserting a new user
 UserSchema.pre('save', function(next) {
-  var user = this as IUsers;  //RAUL.   
+  var user = this as ModelIUsers;  //RAUL.   
   if (this.isModified('password') || this.isNew) {
     bcrypt.genSalt(10, function(err, salt) {
       if (err) {
@@ -44,10 +49,16 @@ UserSchema.pre('save', function(next) {
 });
 
 function comparePassword(pw: string, cb) {
+  console.log(pw);
+  console.log(this.password);
   bcrypt.compare(pw, this.password, function(err, isMatch) {
+    console.log(err);
+    console.log(isMatch);
     if (err) {
+      console.log('ERROR')
       return cb(err);
     }
+    console.log('CB');
     cb(null, isMatch);
   });
 };
@@ -58,4 +69,4 @@ UserSchema.methods.comparePassword = comparePassword
 
 
 // Export the model
-export const User: Model<IUsers> = model<IUsers>('User', UserSchema);
+export const User: Model<ModelIUsers> = model<ModelIUsers>('User', UserSchema);

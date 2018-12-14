@@ -9,9 +9,9 @@ import * as bodyParser from 'body-parser';
 import {connect} from 'mongoose';
 import * as passport from 'passport';
 import {configuration} from './passport/index';
-import routes from './routes/index';
-import users from './routes/users';
-import recipes from './routes/recipes';
+import * as routes from './routes/index';
+import * as users from './routes/users';
+import * as recipes from './routes/recipes';
 import {addUserId} from './passport/passport';
 const app = express();
 
@@ -37,9 +37,10 @@ addUserId(passport);
 
 
 // routes
-app.use('/', routes);
-app.use('/users', users);
+
 app.use('/recipes', recipes);
+app.use('/users', users);
+app.use('/home', routes);
 
 // catch 404 and forward to error handler
 
@@ -85,6 +86,8 @@ app.use(function(err: MyError|Error, req, res, next) {
     error: {}
   });
 });
+
+
 
 // Starting the server
 app.listen(app.get('port'), () => {
