@@ -1,8 +1,10 @@
 <!-- docs/_sidebar.md -->
 
 - [Home](/)
-- [Markcdown](/markdown.md)
+- [Travis](/serverconfig/travis.md)
+- 
 - [Install Docsify](/install/installdocsify)
-
+- 
+- [Api](/api/api.md)
 
   
