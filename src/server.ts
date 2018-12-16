@@ -16,14 +16,17 @@ import {addUserId} from './passport/passport';
 const app = express();
 
 
-//connet to db
-
-connect('mongodb://mongo:27017/Apiuser20').then(() => {
+const connectWithRetry = () => {
+  connect(configuration.database.local).then(() => {
   console.log('connected')
 })
-.catch((err) => {
-  console.log(err);
+.catch(() => {
+  console.log('Reintentando conexion in 5 seg');
+  setTimeout(connectWithRetry, 5000);
 });
+}
+connectWithRetry();
+
 
 
 // settings

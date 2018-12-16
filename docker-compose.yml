@@ -5,17 +5,19 @@ services:
     build: 
       context: .
       dockerfile: Dockerfile
-    command: npm run dev
     volumes: 
       - .:/app
       - /app/node_modules/
     ports:
       - "3000:3000"
-    links: 
+    links:
       - mongo
+    depends_on:
+      - mongo
+    environment:
+      WAIT_HOSTS: mongo:27017
     restart: always
-    depends_on: 
-      - "mongo"
+    command: npm  run start
 
   mongo:
     container_name: "mongodb"
@@ -24,5 +26,10 @@ services:
       - ~/Desktop/mongo-data:/data/db 
     ports:
       - "27017:27017"
+    hostname: mongo 
     command: 
       mongod
+
+
+
+      
