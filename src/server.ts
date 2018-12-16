@@ -18,7 +18,7 @@ const app = express();
 
 //connet to db
 
-connect(configuration.database.local).then(() => {
+connect('mongodb://mongo:27017/Apiuser20').then(() => {
   console.log('connected')
 })
 .catch((err) => {

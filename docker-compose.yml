@@ -5,14 +5,17 @@ services:
     build: 
       context: .
       dockerfile: Dockerfile
-    command: npm run start
+    command: npm run dev
     volumes: 
       - .:/app
       - /app/node_modules/
     ports:
       - "3000:3000"
-    depends_on: 
+    links: 
       - mongo
+    restart: always
+    depends_on: 
+      - "mongo"
 
   mongo:
     container_name: "mongodb"

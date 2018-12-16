@@ -13,8 +13,7 @@ RUN npm install --quiet
 # copy all file from current dir to /app in container
 COPY . /app/
 
-EXPOSE 3000
-
-
+EXPOSE 3000 
+EXPOSE 27017
 
 
