@@ -54,4 +54,3 @@ function comparePassword(pw, cb) {
 UserSchema.methods.comparePassword = comparePassword;
 // Export the model
 exports.User = mongoose_1.model('User', UserSchema);
-//# sourceMappingURL=user.js.map

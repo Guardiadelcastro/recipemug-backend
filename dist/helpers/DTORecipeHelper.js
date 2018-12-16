@@ -18,4 +18,3 @@ function toModelArray(recipeDocument) {
     return (newRecipes);
 }
 exports.toModelArray = toModelArray;
-//# sourceMappingURL=DTORecipeHelper.js.map

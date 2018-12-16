@@ -32,6 +32,9 @@ passport_1.addUserId(passport);
 app.use('/recipes', recipes);
 app.use('/users', users);
 app.use('/home', routes);
+app.get('/favicon.ico', (req, res) => {
+    res.send('');
+});
 // catch 404 and forward to error handler
 class MyError extends Error {
     constructor(message, status = 500) {
@@ -74,4 +77,3 @@ app.use(function (err, req, res, next) {
 app.listen(app.get('port'), () => {
     console.log('server on port', app.get('port'));
 });
-//# sourceMappingURL=server.js.map

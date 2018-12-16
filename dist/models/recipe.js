@@ -14,4 +14,3 @@ const RecipeScheme = new mongoose_1.Schema({
     owner_id: { type: String, required: true }
 });
 exports.Recipe = mongoose_1.model('recipes', RecipeScheme);
-//# sourceMappingURL=recipe.js.map

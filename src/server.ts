@@ -17,10 +17,13 @@ const app = express();
 
 
 //connet to db
-connect(configuration.database.local);
 
-
-
+connect(configuration.database.local).then(() => {
+  console.log('connected')
+})
+.catch((err) => {
+  console.log(err);
+});
 
 
 // settings
@@ -45,10 +48,13 @@ addUserId(passport);
 app.use('/recipes', recipes);
 app.use('/users', users);
 app.use('/home', routes);
+app.get('/favicon.ico', (req, res ) => {
+  res.send('');
+});
 
 // catch 404 and forward to error handler
 
-class MyError extends Error {  //PREGUNTA RAUL. 
+class MyError extends Error {  
 
   private status: number;
   constructor(message: string, status: number=500) {
@@ -90,6 +96,8 @@ app.use(function(err: MyError|Error, req, res, next) {
     error: {}
   });
 });
+
+
 
 
 

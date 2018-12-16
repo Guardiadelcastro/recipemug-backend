@@ -150,4 +150,3 @@ exports.userAuthentication = userAuthentication;
       }
     }
     */
-//# sourceMappingURL=UserController.js.map

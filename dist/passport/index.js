@@ -9,4 +9,3 @@ exports.configuration = {
         mLab: '' // if you want to use mLab for example
     }
 };
-//# sourceMappingURL=index.js.map

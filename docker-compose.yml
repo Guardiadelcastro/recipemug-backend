@@ -1,0 +1,25 @@
+version: "2"
+services:
+  app:
+    container_name: api-recipes
+    build: 
+      context: .
+      dockerfile: Dockerfile
+    command: npm run start
+    volumes: 
+      - .:/app
+      - /app/node_modules/
+    ports:
+      - "3000:3000"
+    depends_on: 
+      - mongo
+
+  mongo:
+    container_name: "mongodb"
+    image: mongo:latest
+    volumes:
+      - ~/Desktop/mongo-data:/data/db 
+    ports:
+      - "27017:27017"
+    command: 
+      mongod

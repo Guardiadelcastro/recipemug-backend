@@ -31,4 +31,3 @@ router.get('/dashboard', passport.authenticate('jwt', {
     res.send('It worked! User id is: ' + user._id + '.');
 });
 module.exports = router;
-//# sourceMappingURL=users.js.map

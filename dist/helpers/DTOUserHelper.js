@@ -11,4 +11,3 @@ function toModel(usersDocument) {
     return DTOUsers;
 }
 exports.toModel = toModel;
-//# sourceMappingURL=DTOUserHelper.js.map

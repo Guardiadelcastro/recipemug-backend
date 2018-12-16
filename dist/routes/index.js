@@ -6,4 +6,3 @@ router.get('/', function (req, res) {
     res.send('Welcome Home');
 });
 module.exports = router;
-//# sourceMappingURL=index.js.map
