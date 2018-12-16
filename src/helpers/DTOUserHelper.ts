@@ -1,6 +1,6 @@
 import { ModelIUsers, DTOUser } from "../models/user";
 
-export function toModelArray(usersDocument: ModelIUsers[]) {
+export function toModel(usersDocument: ModelIUsers[]) {
   let DTOUsers: DTOUser[] = [];
 
   usersDocument.forEach(user => {

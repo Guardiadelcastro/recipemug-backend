@@ -1,7 +1,7 @@
 import * as express from 'express';
 import * as passport from 'passport';
 import {User} from '../models/user';
-import {registerUser, getAllUsers, userAuthentication} from '../controllers/UserController';
+import {registerUser, getAllUsers, userAuthentication, getUser, deleteUser} from '../controllers/UserController';
 
 const router = express.Router();
 
@@ -9,6 +9,17 @@ router.post('/register', (req: express.Request, res: express.Response) => {
   registerUser(req.body).then(message => {res.send(message)})
                         .catch(err => { res.status(500).send(err)});
 });
+
+router.get('/:id', (req: express.Request, res: express.Response) => {
+  getUser(req.params.id).then((user) => res.json(user))
+                        .catch((err) => res.status(500).send(err));
+});
+
+router.delete('/:id', (req: express.Request, res: express.Response) => {
+  deleteUser(req.params.id).then((message) => res.send(message))
+                           .catch((err) => res.status(500).send(err));
+});
+
 
 router.get('/', (req: express.Request, res: express.Response) => {
   getAllUsers().then((users) => {res.json(users)})
@@ -20,7 +31,7 @@ router.post('/auth', (req: express.Request, res: express.Response) => {
   userAuthentication(req.body).then((user) => { res.json(user)})
                               .catch((err) => {res.status(500).send(err)});
 });
-  
+
   // Example of required auth: protect dashboard route with JWT
 
   interface RequestWithUser extends express.Request {

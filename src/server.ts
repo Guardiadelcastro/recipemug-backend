@@ -19,6 +19,10 @@ const app = express();
 //connet to db
 connect(configuration.database.local);
 
+
+
+
+
 // settings
 
 app.set('port', process.env.PORT || 3000);

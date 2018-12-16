@@ -1,9 +1,5 @@
 import { Document, Schema, Model, model } from 'mongoose';
 
-
-class Ingredient implements DTOIngredient{
-  name: string;
-}
 export interface DTOIngredient {
   name: string; 
 } 
@@ -19,7 +15,8 @@ export interface DTORecipe {
   updated: Date,
   created: Date,
   like: number,
-  stars: number
+  stars: number, 
+  owner_id: string
 }
 
 
@@ -33,7 +30,8 @@ export interface ModelIRecipe extends Document {
   updated: Date,
   created: Date,
   like: number,
-  stars: number
+  stars: number, 
+  owner_id: string
 }
 
 const RecipeScheme: Schema = new Schema ({
@@ -46,6 +44,7 @@ const RecipeScheme: Schema = new Schema ({
   stars: { type: Number, default: 0 },
   updated: { type: Date, default: Date.now() },
   created: { type: Date,  default: Date.now()},
+  owner_id: { type: String, required: true}
 });
 
 export const Recipe: Model<ModelIRecipe> = model<ModelIRecipe>('recipes', RecipeScheme);

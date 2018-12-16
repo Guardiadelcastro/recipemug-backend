@@ -13,8 +13,8 @@ router.get('/', (req: express.Request, res: express.Response) =>  {
                 .catch(err => res.status(500).send(err));
 });
 
-router.post('/', (req: express.Request, res: express.Response) => {
-  addNewRecipe(req.body).then(() => res.send('New Recipe Created'))
+router.post('/:id', (req: express.Request, res: express.Response) => {
+  addNewRecipe(req.params.id, req.body).then(() => res.send('New Recipe Created'))
                         .catch((err) => res.status(500).send(err));
  // res.send(addNewRecipe(req.body));
 });
@@ -24,12 +24,11 @@ router.delete('/:id', (req: express.Request, res: express.Response) => {
                                .catch((err) => res.status(500).send(err));
 }); 
 
-/*
+
 router.put('/:id', (req: express.Request, res: express.Response) => {
   const idToUpdate = req.params.id;
-  const updatedRecipe = req.params.body;
-  updateRecipe(idToUpdate, updatedRecipe);
+  const updatedRecipe = req.body;
+  updateRecipe(idToUpdate, updatedRecipe).then((message) => {res.send(message)})
+                                         .catch((err) => {res.status(500).send(err)});
 })
-*/
-
 export = router;

@@ -5,6 +5,8 @@
   "main": "index.js",
   "scripts": {
     "docsiserve": "docsify serve docs",
+    "start": "node ./dist/server.js",
+    "prod": "tsc",
     "dev": "nodemon --watch '**/*.ts' --exec ts-node ./src/server.ts"
   },
   "keywords": [],

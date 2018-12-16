@@ -2,6 +2,8 @@ import { User, DTOUser } from "../models/user";
 import * as jwt from "jsonwebtoken";
 import { configuration } from "../passport/index";
 import * as UserHelper from '../helpers/DTOUserHelper';
+import { Recipe } from '../models/recipe';
+import * as RecipeHelper from '../helpers/DTORecipeHelper';
 
 export function registerUser(user: DTOUser) {
   return new Promise ((resolve, reject) => {
@@ -39,13 +41,47 @@ export function registerUser(user: DTOUser) {
 export function getAllUsers() {
   return new Promise<DTOUser[]> ((resolve, rejects) => {
     User.find({}).then((users) => {
-      const DTOUsers = UserHelper.toModelArray(users);
+      const DTOUsers = UserHelper.toModel(users);
       resolve(DTOUsers);
     })
     .catch((err) => {
       rejects(err);
     })
   }); 
+}
+
+
+export function getUser(userId) {
+  return new Promise ((resolve, rejects) => {
+    let userInformation;
+    User.find({_id: userId}).then((user) => {
+      const userModel = UserHelper.toModel(user);
+      Recipe.find({owner_id: userId}).then((recipes) => {
+        const modelRecipes = RecipeHelper.toModelArray(recipes);
+        userInformation = {
+          ...userModel,
+          recipes: modelRecipes
+        };
+        resolve(userInformation);
+      })
+      .catch((err) => {
+        rejects(err);
+      });
+    })
+    .catch((err) => {
+      rejects(err);
+    });
+  });
+}
+
+export function deleteUser(userId) {
+  return new Promise((resolve, rejects) =>  {
+    User.findByIdAndDelete(userId).then(() => {
+      resolve('User deletes with succesfull')
+    })
+    .catch((err) => { rejects(err)
+    });
+  });
 }
 
 //FUNCION QUE FALLA. 
