@@ -13,6 +13,7 @@ import * as routes from './routes/index';
 import * as users from './routes/users';
 import * as recipes from './routes/recipes';
 import {addUserId} from './passport/passport';
+import * as cors from 'cors';
 const app = express();
 
 
@@ -34,7 +35,7 @@ connectWithRetry();
 app.set('port', process.env.PORT || 3000);
 
 // middlewares
-
+app.use(cors());
 app.use(morgan('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
