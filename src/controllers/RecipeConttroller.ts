@@ -10,15 +10,15 @@ export function getAllRecipes() {
       })
       .catch(err => {
         rejects(err);
-      }); //add toArray and sort.
+      }); 
   });
 }
 
-export function getRecipeById(id: number) {
-  return new Promise<DTORecipe>((resolve, rejects) => {
-    Recipe.findOne({ _id: id })
+export function getuserRecipes(userId: number) {
+  return new Promise<DTORecipe[]>((resolve, rejects) => {
+    Recipe.find({ owner_id: userId })
       .then(recipe => {
-        const response = HelperRecipe.toModel(recipe);
+        const response = HelperRecipe.toModelArray(recipe);
         resolve(response);
       })
       .catch(err => {
@@ -58,9 +58,9 @@ export function deleteRecipeById(id: number) {
 
 export function updateRecipe(id: string, recipeToUpdate: DTORecipe) {
   return new Promise((resolve, rejects) => {
-    Recipe.findByIdAndUpdate(
-      { _id: id },
-      { recipeToUpdate, updated: Date.now() }
+    
+    Recipe.findByIdAndUpdate(id,
+      { $set: {...recipeToUpdate, updated: Date.now()}}
     )
       .then(() => {
         resolve("Updated with Success");

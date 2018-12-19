@@ -17,7 +17,7 @@ services:
     environment:
       WAIT_HOSTS: mongo:27017
     restart: always
-    command: npm  run start
+    command: npm run start
 
   mongo:
     container_name: "mongodb"

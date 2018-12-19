@@ -1,7 +1,7 @@
 import * as express from 'express';
 import * as passport from 'passport';
 import {User} from '../models/user';
-import {registerUser, getAllUsers, userAuthentication, getUser, deleteUser} from '../controllers/UserController';
+import {registerUser, getAllUsers, userAuthentication, getUser, deleteUser, getUserByEmail} from '../controllers/UserController';
 
 const router = express.Router();
 
@@ -10,6 +10,10 @@ router.post('/register', (req: express.Request, res: express.Response) => {
                         .catch(err => { res.status(500).send(err)});
 });
 
+router.get('/email/:email', (req: express.Request, res: express.Response) => {
+  getUserByEmail(req.params.email).then((user) => res.json(user))
+                                  .catch((err) => res.status(500).send(err));
+});
 router.get('/:id', (req: express.Request, res: express.Response) => {
   getUser(req.params.id).then((user) => res.json(user))
                         .catch((err) => res.status(500).send(err));

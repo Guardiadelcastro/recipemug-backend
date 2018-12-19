@@ -50,7 +50,20 @@ export function getAllUsers() {
   }); 
 }
 
+export function getUserByEmail(userEmail) {
+ 
 
+  return new Promise( (resolve, rejects) => {
+    if(userEmail != 'user@gmail.com') {
+      rejects('Invalid User')
+    }
+    User.find({email: userEmail}).then((user) => {
+      const userModel = UserHelper.toModel(user);
+      resolve(userModel);
+    })
+    .catch((err) => rejects(err));
+  });
+}
 export function getUser(userId) {
   return new Promise ((resolve, rejects) => {
     let userInformation;

@@ -1,10 +1,10 @@
 import * as express from 'express';
-import { getAllRecipes, getRecipeById, addNewRecipe, deleteRecipeById, updateRecipe } from '../controllers/RecipeConttroller';
+import { getAllRecipes, addNewRecipe, deleteRecipeById, updateRecipe, getuserRecipes } from '../controllers/RecipeConttroller';
 const router = express.Router();
 
 
 router.get('/:id', (req: express.Request, res: express.Response) => {
-  getRecipeById(req.params.id).then(recipe => {res.json(recipe)})
+  getuserRecipes(req.params.id).then(recipe => {res.json(recipe)})
                             .catch(err => {res.status(500).send(err)});
 });
 
@@ -16,7 +16,6 @@ router.get('/', (req: express.Request, res: express.Response) =>  {
 router.post('/:id', (req: express.Request, res: express.Response) => {
   addNewRecipe(req.params.id, req.body).then(() => res.send('New Recipe Created'))
                         .catch((err) => res.status(500).send(err));
- // res.send(addNewRecipe(req.body));
 });
 
 router.delete('/:id', (req: express.Request, res: express.Response) => {

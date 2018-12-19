@@ -15,5 +15,3 @@ COPY . /app/
 
 EXPOSE 3000 
 EXPOSE 27017
-
-
