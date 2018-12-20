@@ -28,7 +28,8 @@
     "nodemon": "^1.18.7",
     "passport": "^0.4.0",
     "passport-jwt": "^4.0.0",
-    "serve-favicon": "^2.5.0"
+    "serve-favicon": "^2.5.0",
+    "typescript": "^3.0.0"
   },
   "devDependencies": {
     "@types/bcrypt": "^3.0.0",
@@ -40,10 +41,30 @@
     "@types/mongodb": "^3.1.15",
     "@types/mongoose": "^5.3.4",
     "@types/node": "^10.0.8",
+    "@babel/preset-typescript": "*",
     "jest": "^23.6.0",
     "node-notifier": "^5.2.1",
+    "ts-jest": "^23.10.5",
     "ts-node": "^6.0.3",
     "tslint-config-prettier": "^1.12.0",
     "typescript": "3.2.1"
+  },
+  "jest": {
+    "moduleFileExtensions": [
+      "ts",
+      "tsx",
+      "js"
+    ],
+    "transform": {
+      "^.+\\.(ts|tsx)$": "ts-jest"
+    },
+    "globals": {
+      "ts-jest": {
+        "tsConfigFile": "tsconfig.json"
+      }
+    },
+    "testMatch": [
+      "**/tests/*.+(ts|tsx|js)"
+    ]
   }
 }
