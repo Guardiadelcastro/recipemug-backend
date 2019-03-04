@@ -7,13 +7,13 @@ const router = express.Router();
 
 router.post('/register', registerUser);
 
-router.get('/:email', getUserByEmail);
+router.get('/find-by-email', getUserByEmail);
 
-router.get('/:id', getUserbyID);
+router.get('/find-by-id', getUserbyID);
 
-router.delete('/:id', deleteUser);
+router.delete('/delete', deleteUser);
 
-router.get('/', getAllUsers);
+router.get('/get-all', getAllUsers);
 
 // Auth with JWT
 router.post('/login', loginUser)

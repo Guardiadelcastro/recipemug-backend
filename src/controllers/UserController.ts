@@ -7,17 +7,18 @@ import { Recipe } from '../models/recipe';
 import * as RecipeHelper from '../helpers/DTORecipeHelper';
 
 import config from '../config/config'
+import '../middlewares/passport'
 
 export async function registerUser(req, res) {
   try {
     const { email, password } = req.body
     if (!email || !password) {
-      throw new Error('Unable to register user')
+      return res.status(403).json({ message: 'Unable to register user' });
     }
     let user = await User.findOne({ email })
 
     if (user) {
-      throw new Error('Unable to register user')
+      return res.status(403).json({ message: 'Unable to register user' });
     }
     
     user = new User({ email, password });
@@ -26,7 +27,7 @@ export async function registerUser(req, res) {
     res.status(200).json({message: "Successfully created new user." })
 
   } catch (err) {
-    res.status(403).json(err);
+    res.status(403).json({ message: 'Unable to register user' });
   }
 }
 
@@ -41,9 +42,9 @@ export async function getAllUsers(req, res) {
 }
 
 export async function getUserbyID(req, res) {
+  const { id }  = req.body
   try {
-    const id  = req.params.id
-    const user = await User.findById(id)
+    const user = await User.findOne({ _id: id })
     res.json({ user })
   } catch(err) {
     res.status(500).json(err)
@@ -51,9 +52,9 @@ export async function getUserbyID(req, res) {
 }
 
 export async function getUserByEmail(req, res) {
+  const { email }  = req.body
   try {
-    const email  = req.params.id
-    const user = await User.findOne({email})
+    const user = await User.findOne({ email })
     res.json({ user })
   } catch(err) {
     res.status(500).json(err)
@@ -61,9 +62,9 @@ export async function getUserByEmail(req, res) {
 }
 
 export async function deleteUser(req, res) {
+  const{ id } = req.body
   try {
-    const{ id } = req.params.id;
-    await User.findByIdAndDelete(id)
+    await User.findByIdAndDelete({ _id: id })
     res.json('User Deleted')
   } catch(err) {
     res.json('Unable to delete user')
