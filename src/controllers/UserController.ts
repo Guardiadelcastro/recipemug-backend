@@ -1,136 +1,99 @@
 import { User, DTOUser } from "../models/user";
 import * as jwt from "jsonwebtoken";
-import { configuration } from "../passport/index";
+import * as passport from 'passport'
+// import { configuration } from "../passport/index";
 import * as UserHelper from '../helpers/DTOUserHelper';
 import { Recipe } from '../models/recipe';
 import * as RecipeHelper from '../helpers/DTORecipeHelper';
 
-export function registerUser(user: DTOUser) {
-  return new Promise ((resolve, reject) => {
-    if (!user.email || !user.password) {
-      const error = ( {
-        success: false,
-        message: "Please enter email and password."
-      });
-      reject(error);
-    } else {
-      let newUser = new User({
-        email: user.email,
-        password: user.password
-      });
-  
-      newUser.save().then(() => { 
-        const success = {
-          success: true,
-          message: "Successfully created new user."
-        }
-        resolve(success);
-      })
-      .catch(() => { 
-        const error = {
-          success: false,
-          message: "That email address already exists."
-        }
-        reject(error);
-      });
+import config from '../config/config'
+
+export async function registerUser(req, res) {
+  try {
+    const { email, password } = req.body
+    if (!email || !password) {
+      throw new Error('Unable to register user')
     }
-  });
-}
- 
+    let user = await User.findOne({ email })
 
-export function getAllUsers() {
-  return new Promise<DTOUser[]> ((resolve, rejects) => {
-    User.find({}).then((users) => {
-      const DTOUsers = UserHelper.toModel(users);
-      resolve(DTOUsers);
-    })
-    .catch((err) => {
-      rejects(err);
-    })
-  }); 
-}
-
-export function getUserByEmail(userEmail) {
- 
-
-  return new Promise( (resolve, rejects) => {
-    if(userEmail != 'user@gmail.com') {
-      rejects('Invalid User')
+    if (user) {
+      throw new Error('Unable to register user')
     }
-    User.find({email: userEmail}).then((user) => {
-      const userModel = UserHelper.toModel(user);
-      resolve(userModel);
-    })
-    .catch((err) => rejects(err));
-  });
-}
-export function getUser(userId) {
-  return new Promise ((resolve, rejects) => {
-    let userInformation;
-    User.find({_id: userId}).then((user) => {
-      const userModel = UserHelper.toModel(user);
-      Recipe.find({owner_id: userId}).then((recipes) => {
-        const modelRecipes = RecipeHelper.toModelArray(recipes);
-        userInformation = {
-          ...userModel,
-          recipes: modelRecipes
-        };
-        resolve(userInformation);
-      })
-      .catch((err) => {
-        rejects(err);
-      });
-    })
-    .catch((err) => {
-      rejects(err);
-    });
-  });
+    
+    user = new User({ email, password });
+    
+    await user.save()
+    res.status(200).json({message: "Successfully created new user." })
+
+  } catch (err) {
+    res.status(403).json(err);
+  }
 }
 
-export function deleteUser(userId) {
-  return new Promise((resolve, rejects) =>  {
-    User.findByIdAndDelete(userId).then(() => {
-      resolve('User deletes with succesfull')
-    })
-    .catch((err) => { rejects(err)
-    });
-  });
+export async function getAllUsers(req, res) {
+  try {
+    const users = await User.find({});
+    const DTOUsers = UserHelper.toModel(users);
+    res.json(DTOUsers);
+  } catch(err) {
+    res.json('Oops..., something went wrong ')
+  }
 }
 
-//FUNCION QUE FALLA. 
-export function userAuthentication(user: DTOUser) {
-  return new Promise ((resolve, rejects) => {
-    User.findOne({ email: user.email }).then((userToAutenticate) => {
-      userToAutenticate.comparePassword(userToAutenticate.password, function(err, isMatch) {
-        if (isMatch && !err) {
-          console.log(isMatch);
-          let token = jwt.sign(user, configuration.auth.secret, {
-            expiresIn: "2 days"
-          });
-          const success = {
-            success: true,
-            message: "Authentication successfull",
-            token
-          }
-          resolve(success);
-        } else {
-          console.log(isMatch);
-          const error = {
-            success: false,
-            message: "Authentication failed. Passwords did not match."
-          };
-          rejects(error);
-        }
-      });
-    })
-    .catch(() => {
-      const error = {
-        success: false,
-        message: "Authentication failed. User not found."
+export async function getUserbyID(req, res) {
+  try {
+    const id  = req.params.id
+    const user = await User.findById(id)
+    res.json({ user })
+  } catch(err) {
+    res.status(500).json(err)
+  }
+}
+
+export async function getUserByEmail(req, res) {
+  try {
+    const email  = req.params.id
+    const user = await User.findOne({email})
+    res.json({ user })
+  } catch(err) {
+    res.status(500).json(err)
+  }
+}
+
+export async function deleteUser(req, res) {
+  try {
+    const{ id } = req.params.id;
+    await User.findByIdAndDelete(id)
+    res.json('User Deleted')
+  } catch(err) {
+    res.json('Unable to delete user')
+  }
+}
+
+export async function loginUser (req, res, next) {
+  passport.authenticate('login', async (err, user, info) => {
+    try {
+      if(err || !user){
+        const error = new Error('An Error occured')
+        return next(error);
       }
-      rejects(error);
-    });
-  });
+      req.login(user, { session : false }, async (error) => {
+        if( error ) {return next(error)}
+        // Token Body
+        const body = { _id: user._id, email: user.email, username: user.username };
+        // JWT options
+        const options = {
+          expiresIn: '1h'
+        }
+        // Sign the JWT token and populate the payload with the body
+        const token = jwt.sign({ user: body }, config.jwt.secretOrKey, options);
+        // Send back the token to the user
+        return res.json({ token });
+      });
+    } catch (error) {
+      return next(error);
+    }
+  })(req, res, next);
 }
 
 

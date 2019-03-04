@@ -37,13 +37,13 @@ addUserId(passport);
 
 
 // routes
-
+app.get('/', (req: express.Request, res: express.Response) => res.send('Welcome Home'));
 app.use('/recipes', recipes);
 app.use('/users', users);
-app.use('/home', routes);
-app.get('/favicon.ico', (req, res ) => {
-  res.send('');
-});
+
+// app.get('/favicon.ico', (req, res ) => {
+//   res.send('');
+// });
 
 // catch 404 and forward to error handler
 

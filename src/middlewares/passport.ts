@@ -1,27 +1,48 @@
-import {Strategy, ExtractJwt} from 'passport-jwt';
+import * as passport from 'passport';
+import * as passportLocal from 'passport-local';
+import * as passportJWT from 'passport-jwt';
+
 import {User} from '../models/user';
-import {configuration}  from '../passport/index';
+import config from '../config/config';
 
+const LocalStrategy = passportLocal.Strategy;
+const JWTStrategy = passportJWT.Strategy
+const ExtractJWT = passportJWT.ExtractJwt
 
+passport.use('login', new LocalStrategy({
+  usernameField : 'email',
+  passwordField : 'password'
+}, async (email, password, done) => {
+  try {
+    // Find the user associated with the email provided by the user
+    const user = await User.findOne({ email });
+    if( !user ){
+      // If the user isn't found in the database, return a message
+      return done(null, false, { message : 'User not found'});
+    }
+    // Validate password and make sure it matches with the corresponding hash stored in the database
+    // If the passwords match, it returns a value of true.
+    const validate = await user.comparePassword(password);
+    if( !validate ){
+      return done(null, false, { message : 'Wrong Password'});
+    }
+    // Send the user information to the next middleware
+    return done(null, user, { message : 'Logged in Successfully'});
+  } catch (error) {
+    return done(error);
+  }
+}));
 
-export const addUserId = function(passport) {
-  let opts = {
-    jwtFromRequest: ExtractJwt.fromAuthHeaderWithScheme("jwt"),
-    secretOrKey: configuration.auth.secret  
-  };
-
-  passport.use(new Strategy(opts, (jwt_payload, done) => {
-    User.findOne({
-      id: jwt_payload.id
-    }, (err, user) => {
-      if (err) {
-        return done(err, false);
-      }
-      if (user) {
-        done(null, user);
-      } else {
-        done(null, false);
-      }
-    });
-  }));
-};
+// Passport JWT
+passport.use(new JWTStrategy({
+  secretOrKey : config.jwt.secretOrKey,
+  // we expect the user to send the token as a query paramater with the name 'secret_token'
+  jwtFromRequest : ExtractJWT.fromAuthHeaderAsBearerToken()
+}, async (token, done) => {
+  try {
+    // Pass the user details to the next middleware
+    return done(null, token.user);
+  } catch (error) {
+    done(error);
+  }
+}));

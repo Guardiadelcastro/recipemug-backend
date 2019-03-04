@@ -26,41 +26,32 @@ const  UserSchema: Schema = new Schema({
     required: true
   }
 });
-
+type comparePasswordFunction = (candidatePassword: string) => Promise<boolean>;
 // Hash the user's password before inserting a new user
-UserSchema.pre('save', function(next) {
-  var user = this as ModelIUsers;  //RAUL.   
-  if (this.isModified('password') || this.isNew) {
-    bcrypt.genSalt(10, function(err, salt) {
-      if (err) {
-        return next(err);
-      }
-      bcrypt.hash(user.password, salt, function(err, hash) {
-        if (err) {
-          return next(err);
-        }
-        user.password = hash;
-        next();
-      });
-    });
-  } else {
+UserSchema.pre('save', async function hashPassword(next) {
+  try {
+    const user = this as ModelIUsers
+
+    const salt = await bcrypt.genSalt(10);
+
+    const hash = await bcrypt.hash(user.password, salt);
+
+    user.password = hash;
     return next();
+  } catch (err) {
+    return next(err);
   }
 });
 
-function comparePassword(pw: string, cb) {
-  console.log(pw);
-  console.log(this.password);
-  bcrypt.compare(pw, this.password, function(err, isMatch) {
-    console.log(err);
-    console.log(isMatch);
-    if (err) {
-      console.log('ERROR')
-      return cb(err);
-    }
-    console.log('CB');
-    cb(null, isMatch);
-  });
+
+const comparePassword: comparePasswordFunction = async function(candidatePassword) {
+  try {
+    const user = this as ModelIUsers;
+    const compare = await bcrypt.compare(candidatePassword, user.password);
+    return compare;
+  } catch(err) {
+    console.error(err)
+  }
 };
 
 // Compare password input to password saved in database
