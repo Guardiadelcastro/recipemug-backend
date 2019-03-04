@@ -8,10 +8,8 @@ import * as helmet from 'helmet';
 // import * as favicon from 'serve-favicon';
 
 import config from './config/config'
-import * as routes from './routes/index';
 import * as users from './routes/users';
 import * as recipes from './routes/recipes';
-import {addUserId} from './middlewares/passport';
 
 // Init Express app
 const app = express();
@@ -30,11 +28,6 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
 app.use(express.static(path.join(__dirname, 'public')));
-
-// init passport
-app.use(passport.initialize());
-addUserId(passport);
-
 
 // routes
 app.get('/', (req: express.Request, res: express.Response) => res.send('Welcome Home'));
