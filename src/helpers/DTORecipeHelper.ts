@@ -1,4 +1,4 @@
-import { ModelIRecipe, DTORecipe } from "../models/Recipe";
+import { ModelIRecipe, DTORecipe } from "../models/RecipeModel";
 
 export function toModel(recipeDocument: ModelIRecipe): DTORecipe {  
   const newRecipe: DTORecipe  = {

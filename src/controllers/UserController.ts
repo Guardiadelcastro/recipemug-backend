@@ -1,9 +1,9 @@
-import { User, DTOUser } from "../models/User";
+import { User, DTOUser } from "../models/UserModel";
 import * as jwt from "jsonwebtoken";
 import * as passport from 'passport'
 // import { configuration } from "../passport/index";
 import * as UserHelper from '../helpers/DTOUserHelper';
-import { Recipe } from '../models/Recipe';
+import { Recipe } from '../models/RecipeModel';
 import * as RecipeHelper from '../helpers/DTORecipeHelper';
 
 import config from '../config/config'

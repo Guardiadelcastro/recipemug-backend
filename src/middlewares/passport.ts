@@ -2,7 +2,7 @@ import * as passport from 'passport';
 import * as passportLocal from 'passport-local';
 import * as passportJWT from 'passport-jwt';
 
-import {User} from '../models/User';
+import {User} from '../models/UserModel';
 import config from '../config/config';
 
 const LocalStrategy = passportLocal.Strategy;

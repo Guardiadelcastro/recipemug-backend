@@ -1,4 +1,4 @@
-import { DTORecipe, Recipe, ModelIRecipe } from "../models/Recipe";
+import { DTORecipe, Recipe, ModelIRecipe } from "../models/RecipeModel";
 import * as HelperRecipe from "../helpers/DTORecipeHelper";
 
 export function getAllRecipes() {
