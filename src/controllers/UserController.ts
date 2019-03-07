@@ -88,10 +88,10 @@ export async function loginUser (req, res, next) {
         // Sign the JWT token and populate the payload with the body
         const token = jwt.sign({ user: body }, config.jwt.secretOrKey, options);
         // Send back the token to the user
-        return res.json({ user, token });
+        return res.json({ user, token, message: 'Login successful' });
       });
     } catch (error) {
-      return next(error);
+      return res.json({message: 'Error login in, check your email and password'});
     }
   })(req, res, next);
 }
