@@ -22,7 +22,6 @@ export async function registerUser(req, res) {
     }
     
     user = new User({ email, password });
-    
     await user.save()
     res.status(200).json({message: "Successfully created new user." })
 

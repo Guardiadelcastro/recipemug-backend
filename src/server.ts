@@ -30,8 +30,8 @@ app.use(express.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, 'public')));
 
 // routes
-app.get('/', (req: express.Request, res: express.Response) => res.send('Welcome Home'));
-app.use('/recipes', recipes);
+app.get('/', (req, res) => res.send('Welcome to the recipemug api'));
+app.use('/api/recipes', recipes);
 app.use('/users', users);
 
 // app.get('/favicon.ico', (req, res ) => {

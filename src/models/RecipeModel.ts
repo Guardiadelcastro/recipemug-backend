@@ -16,7 +16,7 @@ export interface DTORecipe {
   created: Date,
   like: number,
   stars: number, 
-  owner_id: string
+  owner: string
 }
 
 
@@ -31,7 +31,7 @@ export interface ModelIRecipe extends Document {
   created: Date,
   like: number,
   stars: number, 
-  owner_id: string
+  owner: string
 }
 
 const RecipeScheme: Schema = new Schema ({
@@ -44,7 +44,7 @@ const RecipeScheme: Schema = new Schema ({
   stars: { type: Number, default: 0 },
   updated: { type: Date, default: Date.now() },
   created: { type: Date,  default: Date.now()},
-  owner_id: { type: String, required: true}
+  owner: { type: String, required: true}
 });
 
 export const Recipe: Model<ModelIRecipe> = model<ModelIRecipe>('Recipes', RecipeScheme);
