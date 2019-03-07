@@ -1,7 +1,7 @@
 {
   "name": "recipemug-express-backend",
-  "version": "1.0.0",
-  "description": "",
+  "version": "0.5.0",
+  "description": "recipemug backend with express and typescript",
   "main": "index.js",
   "scripts": {
     "docsiserve": "docsify serve docs",
@@ -9,7 +9,8 @@
     "tsc": "tsc",
     "prod": "NODE_ENV=production nodemon -e ts ./dist/server.js",
     "dev": "nodemon",
-    "test": "jest"
+    "test": "jest",
+    "lint": "tslint -p ./tsconfig.json"
   },
   "keywords": [],
   "author": "",
