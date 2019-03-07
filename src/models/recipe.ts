@@ -47,4 +47,4 @@ const RecipeScheme: Schema = new Schema ({
   owner_id: { type: String, required: true}
 });
 
-export const Recipe: Model<ModelIRecipe> = model<ModelIRecipe>('recipes', RecipeScheme);
+export const Recipe: Model<ModelIRecipe> = model<ModelIRecipe>('Recipes', RecipeScheme);

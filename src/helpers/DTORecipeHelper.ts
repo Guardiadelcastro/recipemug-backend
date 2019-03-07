@@ -1,4 +1,4 @@
-import { ModelIRecipe, DTORecipe } from "../models/recipe";
+import { ModelIRecipe, DTORecipe } from "../models/Recipe";
 
 export function toModel(recipeDocument: ModelIRecipe): DTORecipe {  
   const newRecipe: DTORecipe  = {
@@ -13,10 +13,10 @@ export function toModel(recipeDocument: ModelIRecipe): DTORecipe {
 }
 
 export function toModelArray(recipeDocument: ModelIRecipe[]): DTORecipe[] {
-  let newRecipes: DTORecipe[] = [];
+  const newRecipes: DTORecipe[] = [];
 
   recipeDocument.forEach(recipe => {
-    let newDTORecipe: DTORecipe = {
+    const newDTORecipe: DTORecipe = {
       ...recipe.toObject(),
       uuid: recipe._id,
     }

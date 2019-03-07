@@ -1,9 +1,9 @@
-import { User, DTOUser } from "../models/user";
+import { User, DTOUser } from "../models/User";
 import * as jwt from "jsonwebtoken";
 import * as passport from 'passport'
 // import { configuration } from "../passport/index";
 import * as UserHelper from '../helpers/DTOUserHelper';
-import { Recipe } from '../models/recipe';
+import { Recipe } from '../models/Recipe';
 import * as RecipeHelper from '../helpers/DTORecipeHelper';
 
 import config from '../config/config'
@@ -96,37 +96,3 @@ export async function loginUser (req, res, next) {
     }
   })(req, res, next);
 }
-
-
-/*
-    function(err, user) {
-      if (err) throw err;
-
-      if (!user) {
-        return {
-          success: false,
-          message: "Authentication failed. User not found."
-        };
-      } else {
-        // Check if password matches
-        user.comparePassword(user.password, function(err, isMatch) {
-          if (isMatch && !err) {
-            // Create token if the password matched and no error was thrown
-            let token = jwt.sign(user, configuration.auth.secret, {
-              expiresIn: "2 days"
-            });
-            return {
-              success: true,
-              message: "Authentication successfull",
-              token
-            };
-          } else {
-            return {
-              success: false,
-              message: "Authentication failed. Passwords did not match."
-            };
-          }
-        });
-      }
-    }
-    */
