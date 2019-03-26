@@ -53,7 +53,7 @@ export async function updateRecipe(req, res) {
     const recipe = await Recipe.findOneAndUpdate({_id: id}, {
       $set: { ...updates, updated: Date.now()}
     })
-    res.json({message: `Recipe updated`});
+    res.json({message: `Recipe updated`}, recipe);
   } catch (err) {
     res.status(400).json({err});
   }

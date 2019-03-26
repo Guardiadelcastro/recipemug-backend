@@ -91,7 +91,7 @@ export async function loginUser (req, res, next) {
         return res.json({ user, token, message: 'Login successful' });
       });
     } catch (error) {
-      return res.json({message: 'Error login in, check your email and password'});
+      return res.status(500).json({message: 'Error login in, check your email and password'});
     }
   })(req, res, next);
 }
