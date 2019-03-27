@@ -11,8 +11,8 @@ import '../middlewares/passport'
 
 export async function registerUser(req, res) {
   try {
-    const { email, password } = req.body
-    if (!email || !password) {
+    const { email, password, username } = req.body
+    if (!email || !password || !username) {
       return res.status(403).json({ message: 'Unable to register user' });
     }
     let user = await User.findOne({ email })
@@ -21,7 +21,7 @@ export async function registerUser(req, res) {
       return res.status(403).json({ message: 'Unable to register user' });
     }
     
-    user = new User({ email, password });
+    user = new User({ email, password, username });
     await user.save()
     res.status(200).json({ message: "Successfully created new user." })
 
@@ -59,6 +59,15 @@ export async function getUserByEmail(req, res) {
     res.status(500).json(err)
   }
 }
+export async function getUserByUsername(req, res) {
+  const { username }  = req.body
+  try {
+    const user = await User.findOne({ username })
+    res.json({ user })
+  } catch(err) {
+    res.status(500).json(err)
+  }
+}
 
 export async function deleteUser(req, res) {
   const{ id } = req.body
@@ -80,7 +89,7 @@ export async function loginUser (req, res, next) {
       req.login(user, { session : false }, async (error) => {
         if( error ) {return next(error)}
         // Token Body
-        const body = { _id: user._id, email: user.email, username: user.username };
+        const body = { email: user.email, username: user.username };
         // JWT options
         const options = {
           expiresIn: '24h'

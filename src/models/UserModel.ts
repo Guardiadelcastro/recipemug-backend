@@ -3,18 +3,26 @@ import { Document, Schema, Model, model } from 'mongoose';
 
 export interface DTOUser {
   uuid: string,
+  username: string
   email: string,
   password: string,
+
 }
 
 export interface ModelIUsers extends Document {
   _id: string,
+  usermane: string,
   email: string,
   password: string,
+  recipes: typeof Array,
   comparePassword: typeof comparePassword  
 }
 
 const  UserSchema: Schema = new Schema({
+  username: {
+    type: String,
+    unique: true
+  },
   email: {
     type: String,
     lowercase: true,
@@ -24,6 +32,9 @@ const  UserSchema: Schema = new Schema({
   password: {
     type: String,
     required: true
+  },
+  recipes: {
+    type: Array
   }
 });
 type comparePasswordFunction = (candidatePassword: string) => Promise<boolean>;
