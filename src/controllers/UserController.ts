@@ -23,7 +23,7 @@ export async function registerUser(req, res) {
     
     user = new User({ email, password });
     await user.save()
-    res.status(200).json({message: "Successfully created new user." })
+    res.status(200).json({ message: "Successfully created new user." })
 
   } catch (err) {
     res.status(403).json({ message: 'Unable to register user' });
@@ -83,7 +83,7 @@ export async function loginUser (req, res, next) {
         const body = { _id: user._id, email: user.email, username: user.username };
         // JWT options
         const options = {
-          expiresIn: '1h'
+          expiresIn: '24h'
         }
         // Sign the JWT token and populate the payload with the body
         const token = jwt.sign({ user: body }, config.jwt.secretOrKey, options);
