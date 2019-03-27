@@ -32,8 +32,9 @@ export async function registerUser(req, res) {
 export async function getUserbyID(req, res) {
   const { id }  = req.body
   try {
-    const user = await User.findOne({ _id: id })
-    res.json({ user })
+    const user = await User.findOne({ _id: id }, {_id: 0, _v: 0, password: 0})
+
+    res.json(user)
   } catch(err) {
     res.status(500).json(err)
   }
@@ -42,7 +43,7 @@ export async function getUserbyID(req, res) {
 export async function getUserByEmail(req, res) {
   const { email }  = req.body
   try {
-    const user = await User.findOne({ email })
+    const user = await User.findOne({ email }, {_id: 0, _v: 0, password: 0})
     res.json({ user })
   } catch(err) {
     res.status(500).json(err)
@@ -51,7 +52,7 @@ export async function getUserByEmail(req, res) {
 export async function getUserByUsername(req, res) {
   const { username }  = req.body
   try {
-    const user = await User.findOne({ username })
+    const user = await User.findOne({ username }, {_id: 0, _v: 0, password: 0})
     res.json({ user })
   } catch(err) {
     res.status(500).json(err)
@@ -86,7 +87,13 @@ export async function loginUser (req, res, next) {
         // Sign the JWT token and populate the payload with the body
         const token = jwt.sign({ user: body }, config.jwt.secretOrKey, options);
         // Send back the token to the user
-        return res.json({ user, token, message: 'Login successful' });
+        const userModel = {
+          ...user.toObject()
+        }
+        delete userModel['_id'];
+        delete userModel['_v'];
+        delete userModel['password'];
+        return res.json({ userModel, token, message: 'Login successful' });
       });
     } catch (error) {
       return res.status(500).json({message: 'Error login in, check your email and password'});
