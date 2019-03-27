@@ -1,4 +1,4 @@
-import { User, DTOUser } from "../models/UserModel";
+import { User } from "../models/UserModel";
 import * as jwt from "jsonwebtoken";
 import * as passport from 'passport'
 // import { configuration } from "../passport/index";
@@ -44,7 +44,7 @@ export async function getUserByEmail(req, res) {
   const { email }  = req.body
   try {
     const user = await User.findOne({ email }, {_id: 0, _v: 0, password: 0})
-    res.json({ user })
+    res.json(user)
   } catch(err) {
     res.status(500).json(err)
   }
@@ -53,7 +53,7 @@ export async function getUserByUsername(req, res) {
   const { username }  = req.body
   try {
     const user = await User.findOne({ username }, {_id: 0, _v: 0, password: 0})
-    res.json({ user })
+    res.json(user)
   } catch(err) {
     res.status(500).json(err)
   }
