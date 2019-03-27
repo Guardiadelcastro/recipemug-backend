@@ -2,9 +2,8 @@ import { User, DTOUser } from "../models/UserModel";
 import * as jwt from "jsonwebtoken";
 import * as passport from 'passport'
 // import { configuration } from "../passport/index";
-import * as UserHelper from '../helpers/DTOUserHelper';
-import { Recipe } from '../models/RecipeModel';
-import * as RecipeHelper from '../helpers/DTORecipeHelper';
+import { toModel } from '../helpers/DTOUserHelper';
+
 
 import config from '../config/config'
 import '../middlewares/passport'
@@ -27,16 +26,6 @@ export async function registerUser(req, res) {
 
   } catch (err) {
     res.status(403).json({ message: 'Unable to register user' });
-  }
-}
-
-export async function getAllUsers(req, res) {
-  try {
-    const users = await User.find({});
-    const DTOUsers = UserHelper.toModel(users);
-    res.json(DTOUsers);
-  } catch(err) {
-    res.json('Oops..., something went wrong ')
   }
 }
 

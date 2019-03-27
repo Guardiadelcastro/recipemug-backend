@@ -1,5 +1,5 @@
 import * as express from 'express';
-import { registerUser, getAllUsers, loginUser, getUserbyID, deleteUser, getUserByEmail } from '../controllers/UserController';
+import { registerUser, loginUser, getUserbyID, deleteUser, getUserByEmail } from '../controllers/UserController';
 
 const router = express.Router();
 
@@ -10,8 +10,6 @@ router.get('/find-by-email', getUserByEmail);
 router.get('/find-by-id', getUserbyID);
 
 router.delete('/delete', deleteUser);
-
-router.get('/get-all', getAllUsers);
 
 // Auth with JWT
 router.post('/login', loginUser)
