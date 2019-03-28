@@ -1,13 +1,15 @@
 import * as express from 'express';
-import { registerUser, loginUser, getUserbyID, deleteUser, getUserByEmail } from '../controllers/UserController';
+import { registerUser, loginUser, getUserbyID, deleteUser, getUserByEmail, getUserByUsername } from '../controllers/UserController';
 
 const router = express.Router();
 
 router.post('/register', registerUser);
 
-router.get('/find-by-email', getUserByEmail);
+router.get('/find/email', getUserByEmail);
 
-router.get('/find-by-id', getUserbyID);
+router.get('/find/username', getUserByUsername);
+
+router.get('/find/id', getUserbyID);
 
 router.delete('/delete', deleteUser);
 
