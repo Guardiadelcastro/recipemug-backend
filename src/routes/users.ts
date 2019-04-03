@@ -1,20 +1,20 @@
 import * as express from 'express';
 import { registerUser, loginUser, getUserbyID, deleteUser, getUserByEmail, getUserByUsername, updateUser } from '../controllers/UserController';
-import { isAuth } from '../middlewares/auth'
-
+// import { isAuth } from '../middlewares/auth'
+// TODO: Add protection to user routes
 const router = express.Router();
 
-router.get('/find/email', isAuth, getUserByEmail);
+router.get('/find/email', getUserByEmail);
 
-router.get('/find/username', isAuth, getUserByUsername);
+router.get('/find/username', getUserByUsername);
 
-router.get('/find/id', isAuth, getUserbyID);
+router.get('/find/id', getUserbyID);
 
 router.post('/register', registerUser);
 
-router.put('/update', isAuth, updateUser);
+router.put('/update', updateUser);
 
-router.delete('/delete', isAuth, deleteUser);
+router.delete('/delete', deleteUser);
 
 // Auth with JWT
 router.post('/login', loginUser)

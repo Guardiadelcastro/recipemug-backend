@@ -59,8 +59,12 @@ export async function getUserByUsername(req, res) {
 
 export async function updateUser(req, res) {
   try {
-    const body = req.body;
-    await User.findOneAndUpdate({ username: body.email }, body, {new: true})
+    const update = req.body;
+    const response = await User.findOneAndUpdate({ email: update.email }, update);
+    console.log(response);
+    if (response === null) {
+      throw new Error('user not found');
+    }
     res.json({message: 'User updated'})
   } catch(err) {
     res.status(500).json(err)
