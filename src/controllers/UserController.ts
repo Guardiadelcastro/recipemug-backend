@@ -57,10 +57,20 @@ export async function getUserByUsername(req, res) {
   }
 }
 
-export async function deleteUser(req, res) {
-  const{ id } = req.body
+export async function updateUser(req, res) {
   try {
-    await User.findByIdAndDelete({ _id: id })
+    const body = req.body;
+    await User.findOneAndUpdate({ username: body.email }, body, {new: true})
+    res.json({message: 'User updated'})
+  } catch(err) {
+    res.status(500).json(err)
+  }
+}
+
+export async function deleteUser(req, res) {
+  const{ email } = req.body
+  try {
+    await User.findByIdAndDelete({ email })
     res.json('User Deleted')
   } catch(err) {
     res.json('Unable to delete user')

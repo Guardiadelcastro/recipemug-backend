@@ -5,23 +5,24 @@ export interface DTOIngredient {
 } 
 
 
-export interface DTORecipe {
-  uuid: string,
-  title: string,
-  description: string,
-  image: string,
-  ingredients: string[],
-  steps: string[],
-  updated: Date,
-  created: Date,
-  like: number,
-  stars: number, 
-  owner: string
-}
+// export interface DTORecipe {
+//   uuid: string,
+//   title: string,
+//   description: string,
+//   image: string,
+//   ingredients: string[],
+//   steps: string[],
+//   updated: Date,
+//   created: Date,
+//   like: number,
+//   stars: number, 
+//   owner: string
+// }
 
 
 export interface ModelIRecipe extends Document {
   _id: string;
+  slug: string,
   title: string,
   description: string,
   image: string,
@@ -35,6 +36,7 @@ export interface ModelIRecipe extends Document {
 }
 
 const RecipeScheme: Schema = new Schema ({
+  slug: {type: String, required: true, unique: true},
   title: { type: String, required: true },
   description: { type: String, required: true },
   image: { type: String, required: false},

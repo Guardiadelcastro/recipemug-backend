@@ -1,17 +1,20 @@
 import * as express from 'express';
-import { registerUser, loginUser, getUserbyID, deleteUser, getUserByEmail, getUserByUsername } from '../controllers/UserController';
+import { registerUser, loginUser, getUserbyID, deleteUser, getUserByEmail, getUserByUsername, updateUser } from '../controllers/UserController';
+import { isAuth } from '../middlewares/auth'
 
 const router = express.Router();
 
+router.get('/find/email', isAuth, getUserByEmail);
+
+router.get('/find/username', isAuth, getUserByUsername);
+
+router.get('/find/id', isAuth, getUserbyID);
+
 router.post('/register', registerUser);
 
-router.get('/find/email', getUserByEmail);
+router.put('/update', isAuth, updateUser);
 
-router.get('/find/username', getUserByUsername);
-
-router.get('/find/id', getUserbyID);
-
-router.delete('/delete', deleteUser);
+router.delete('/delete', isAuth, deleteUser);
 
 // Auth with JWT
 router.post('/login', loginUser)
