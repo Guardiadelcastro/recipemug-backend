@@ -4,9 +4,9 @@ import * as HelperRecipe from '../helpers/DTORecipeHelper';
 
 export async function createRecipe(req, res) {
   try{
-    const body = req.body
+    const recipe = req.body.recipe
     const newRecipe: ModelIRecipe = new Recipe({
-      ...body,
+      ...recipe,
       created: new Date(),
       updated: new Date(),
       like: 0,
