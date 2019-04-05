@@ -61,7 +61,6 @@ export async function updateUser(req, res) {
   try {
     const update = req.body;
     const response = await User.findOneAndUpdate({ email: update.email }, update);
-    console.log(response);
     if (response === null) {
       throw new Error('user not found');
     }

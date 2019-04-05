@@ -14,7 +14,6 @@ export interface ModelIUsers extends Document {
   usermane: string,
   email: string,
   password: string,
-  recipes: typeof Array,
   comparePassword: typeof comparePassword  
 }
 
@@ -33,9 +32,6 @@ const  UserSchema: Schema = new Schema({
   password: {
     type: String,
     required: true
-  },
-  recipes: {
-    type: Array
   }
 });
 type comparePasswordFunction = (candidatePassword: string) => Promise<boolean>;

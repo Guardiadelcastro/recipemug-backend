@@ -7,7 +7,7 @@ const router = express.Router();
 
 router.post('/create', isAuth, createRecipe);
 
-router.get('/my-recipes', isAuth, getUserRecipes);
+router.get('/my-recipes/:owner', isAuth, getUserRecipes);
 
 router.get('/get-recipe', isAuth, getRecipe)
 

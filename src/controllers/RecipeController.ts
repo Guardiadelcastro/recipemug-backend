@@ -19,8 +19,8 @@ export async function createRecipe(req, res) {
 
 export async function getUserRecipes(req, res) {
   try {
-    const { owner } = req.body;
-    const recipes = await Recipe.find({ owner });
+    const { owner } = req.params;
+    const recipes = await Recipe.find({ owner: owner });
     res.json(recipes);
   } catch (err) {
     res.status(400).json({err});
