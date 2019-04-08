@@ -4,11 +4,11 @@ import { registerUser, loginUser, getUserbyID, deleteUser, getUserByEmail, getUs
 // TODO: Add protection to user routes
 const router = express.Router();
 
-router.get('/find/email', getUserByEmail);
+router.get('/find/:email', getUserByEmail);
 
-router.get('/find/username', getUserByUsername);
+router.get('/find/:username', getUserByUsername);
 
-router.get('/find/id', getUserbyID);
+router.get('/find/:id', getUserbyID);
 
 router.post('/register', registerUser);
 

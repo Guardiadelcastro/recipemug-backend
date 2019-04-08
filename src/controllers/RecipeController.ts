@@ -20,7 +20,7 @@ export async function createRecipe(req, res) {
 export async function getUserRecipes(req, res) {
   try {
     const { owner } = req.params;
-    const recipes = await Recipe.find({ owner: owner });
+    const recipes = await Recipe.find({ owner: owner }, {_id: 0, __v: 0});
     res.json(recipes);
   } catch (err) {
     res.status(400).json({err});
@@ -30,7 +30,7 @@ export async function getUserRecipes(req, res) {
 export async function getRecipe(req, res) {
   try {
     const { id } = req.body;
-    const recipe = await Recipe.findOne({ _id: id });
+    const recipe = await Recipe.findOne({ _id: id }, , {_id: 0, __v: 0});
     res.json(recipe);
   } catch (err) {
     res.status(400).json({err});

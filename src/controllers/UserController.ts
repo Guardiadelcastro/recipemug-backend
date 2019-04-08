@@ -28,7 +28,7 @@ export async function registerUser(req, res) {
 }
 
 export async function getUserbyID(req, res) {
-  const { id }  = req.body
+  const { id }  = req.params
   try {
     const user = await User.findOne({ _id: id }, {_id: 0, __v: 0, password: 0})
     res.json(user)
@@ -38,7 +38,7 @@ export async function getUserbyID(req, res) {
 }
 
 export async function getUserByEmail(req, res) {
-  const { email }  = req.body
+  const { email }  = req.params
   try {
     const user = await User.findOne({ email }, {_id: 0, __v: 0, password: 0})
     res.json(user)
@@ -48,7 +48,7 @@ export async function getUserByEmail(req, res) {
 }
 
 export async function getUserByUsername(req, res) {
-  const { username }  = req.body
+  const { username }  = req.params
   try {
     const user = await User.findOne({ username }, {_id: 0, __v: 0, password: 0})
     res.json(user)
