@@ -30,7 +30,7 @@ export async function getUserRecipes(req, res) {
 export async function getRecipe(req, res) {
   try {
     const { id } = req.body;
-    const recipe = await Recipe.findOne({ _id: id }, , {_id: 0, __v: 0});
+    const recipe = await Recipe.findOne({ _id: id }, {_id: 0, __v: 0});
     res.json(recipe);
   } catch (err) {
     res.status(400).json({err});
@@ -52,7 +52,7 @@ export async function updateRecipe(req, res) {
     const recipe = await Recipe.findOneAndUpdate({_id: id}, {
       $set: { ...updates, updated: Date.now()}
     })
-    res.json({message: `Recipe updated`}, recipe);
+    res.json({message: `Recipe updated`});
   } catch (err) {
     res.status(400).json({err});
   }
