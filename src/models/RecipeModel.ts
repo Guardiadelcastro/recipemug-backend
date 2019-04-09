@@ -35,7 +35,7 @@ export interface ModelIRecipe extends Document {
   owner: string
 }
 
-const RecipeScheme: Schema = new Schema ({
+const RecipeSchema: Schema = new Schema ({
   slug: {type: String, required: true, unique: true},
   title: { type: String, required: true },
   description: { type: String, required: true },
@@ -49,4 +49,13 @@ const RecipeScheme: Schema = new Schema ({
   owner: { type: String, required: true}
 });
 
-export const Recipe: Model<ModelIRecipe> = model<ModelIRecipe>('Recipes', RecipeScheme);
+RecipeSchema.method('toClient', function() {
+  let obj = this.toObject();
+
+  //Rename fields
+  obj.id = obj._id;
+  delete obj._id;
+
+  return obj;
+});
+export const Recipe: Model<ModelIRecipe> = model<ModelIRecipe>('Recipes', RecipeSchema);

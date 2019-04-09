@@ -20,8 +20,14 @@ export async function createRecipe(req, res) {
 export async function getUserRecipes(req, res) {
   try {
     const { owner } = req.params;
-    const recipes = await Recipe.find({ owner: owner }, {_id: 0, __v: 0});
-    res.json(recipes);
+    let recipes = await Recipe.find({ owner: owner }, {__v: 0});
+    const userRecipes = recipes.map(recipe => {
+      recipe = recipe.toObject();
+      recipe.id = recipe._id;
+      delete recipe._id;
+      return recipe;
+      });
+    res.json(userRecipes);
   } catch (err) {
     res.status(400).json({err});
   }
@@ -48,10 +54,11 @@ export async function deleteRecipe(req, res) {
 }
 export async function updateRecipe(req, res) {
   try {
-    const { id, updates} = req.body;
-    const recipe = await Recipe.findOneAndUpdate({_id: id}, {
-      $set: { ...updates, updated: Date.now()}
-    })
+    const { recipe } = req.body;
+    const recipeToUpdate = await Recipe.findOneAndUpdate({_id: recipe.id}, {
+      $set: { ...recipe, updated: Date.now()}}, {new: true}
+    )
+    console.log(recipe);
     res.json({message: `Recipe updated`});
   } catch (err) {
     res.status(400).json({err});
