@@ -1,33 +1,18 @@
 import * as express from 'express';
-import { getAllRecipes, addNewRecipe, deleteRecipeById, updateRecipe, getuserRecipes } from '../controllers/RecipeConttroller';
+
+import { createRecipe, getRecipe, updateRecipe, getUserRecipes, deleteRecipe } from '../controllers/RecipeController';
+import { isAuth } from '../middlewares/auth'
+
 const router = express.Router();
 
+router.post('/create', isAuth, createRecipe);
 
-router.get('/:id', (req: express.Request, res: express.Response) => {
-  getuserRecipes(req.params.id).then(recipe => {res.json(recipe)})
-                            .catch(err => {res.status(500).send(err)});
-});
+router.get('/my-recipes/:owner', isAuth, getUserRecipes);
 
-router.get('/', (req: express.Request, res: express.Response) =>  {
- getAllRecipes().then(recipes => {res.json(recipes)})
-                .catch(err => res.status(500).send(err));
-});
+router.get('/get-recipe', isAuth, getRecipe)
 
-router.post('/:id', (req: express.Request, res: express.Response) => {
-  addNewRecipe(req.params.id, req.body).then(() => res.send('New Recipe Created'))
-                        .catch((err) => res.status(500).send(err));
-});
+router.put('/update', isAuth, updateRecipe)
 
-router.delete('/:id', (req: express.Request, res: express.Response) => {
-  deleteRecipeById(req.params.id).then((recipe) => res.send('Recipe deleted with success' + recipe)) 
-                               .catch((err) => res.status(500).send(err));
-}); 
+router.delete('/delete/:id', isAuth, deleteRecipe); 
 
-
-router.put('/:id', (req: express.Request, res: express.Response) => {
-  const idToUpdate = req.params.id;
-  const updatedRecipe = req.body;
-  updateRecipe(idToUpdate, updatedRecipe).then((message) => {res.send(message)})
-                                         .catch((err) => {res.status(500).send(err)});
-})
 export = router;

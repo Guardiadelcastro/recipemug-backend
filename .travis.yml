@@ -1,0 +1,34 @@
+language: node_js
+node_js:
+- '11'
+addons:
+  ssh_known_hosts:
+  - 206.189.96.128
+  - recipemug.club
+branches:
+  only:
+  - master
+env:
+  global:
+  - REMOTE_BACKEND_DIR=/var/backend
+  - REMOTE_USER=travis
+  - REMOTE_HOST=206.189.96.128
+before_install:
+- openssl aes-256-cbc -K $encrypted_93a4f6c5357e_key -iv $encrypted_93a4f6c5357e_iv
+  -in travis_b_rsa.enc -out travis_b_rsa -d
+- chmod 600 travis_b_rsa
+- mv travis_rsa ~/.ssh/id_rsa
+install:
+- npm i
+script:
+- npm run test
+deploy:
+  skip_cleanup: true
+  provider: script
+  script: bash .scripts/deploy.sh
+  on:
+    branch: master
+notifications:
+  email: false
+  slack:
+    secure: nGSdVTW1F8djXkXnu2JaPeghPmz+TDMx+MhY5ZehAjEc7pvxDJuPcrlVuZg7lcqsFUmNDYsY9bGR5tVvnhlOY9ChJxIto0SvwCcI4BiPH+Hxm29Uau2wD6BNbvXVq1QFHLEaulH83TFro5vBrME49LnXAwJ8exjWysW63NM0jnywtJkfE8RM2QeXJbJjLFSndlQGKxrRDRVT+ER5krWgt4sa58intP5wKua3QkL0NtE4hYzeZDpEg5Ljrrq6xb9TqvqxjKP6lPgkBiJRX0GqV760AJ9wWv7X9QxqQsDOUHvU9Y7ww/WhAu1rv77iICidRGeH8S+H430Fy5CEo9JLUJWZgSdAAMEgeHP2mJCgj7vxGx/UTwpl5DOEudvu9gcAq/FU+axMPUlk86uTbA2+SCLJoKVfxyTn1AyXYAU06TvjZKfcH4YDVgHvHUW92v+ELbf/pfseab/11NtCXk0U9C2H7B/qhLLLtLDfkZrwxdY7nHADgw+pnmqTqvhxqedB/vm5rxQ7eyI50lLbpt+IyuBpPBkLVnLkdd7oZaqvA6bzysrWO67vx8wSVeniXWaTXIH+63i4drV36whmtByF39Hb64c4YBfCudXZvCxvnTdahn0MUA5NzXSQtvrALTjhrkhHDX9EN4rUT/oPToe3GMvP7ZZGUQHN3lURIPew9j0=

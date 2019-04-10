@@ -1,4 +1,4 @@
-import { ModelIUsers, DTOUser } from "../models/user";
+import { ModelIUsers, DTOUser } from "../models/UserModel";
 
 export function toModel(usersDocument: ModelIUsers[]) {
   let DTOUsers: DTOUser[] = [];
