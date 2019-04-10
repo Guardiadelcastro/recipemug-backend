@@ -43,23 +43,25 @@ export async function getRecipe(req, res) {
   }
 }
 
-export async function deleteRecipe(req, res) {
-  try {
-    const { id } = req.body;
-    const recipe = await Recipe.findOneAndDelete({ _id: id });
-    res.json({message: `Recipe ${recipe.title} deleted`});
-  } catch (err) {
-    res.status(400).json({err});
-  }
-}
 export async function updateRecipe(req, res) {
   try {
     const { recipe } = req.body;
     const recipeToUpdate = await Recipe.findOneAndUpdate({_id: recipe.id}, {
       $set: { ...recipe, updated: Date.now()}}, {new: true}
-    )
-    console.log(recipe);
-    res.json({message: `Recipe updated`});
+      )
+      console.log(recipe);
+      res.json({message: `Recipe updated`});
+    } catch (err) {
+      res.status(400).json({err});
+    }
+  }
+  
+export async function deleteRecipe(req, res) {
+  try {
+    const { id } = req.params;
+    console.log(id);
+    const recipeToDelete = await Recipe.findOneAndDelete({ _id: id });
+    res.json({message: `Recipe deleted`});
   } catch (err) {
     res.status(400).json({err});
   }

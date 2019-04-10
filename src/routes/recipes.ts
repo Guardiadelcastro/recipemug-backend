@@ -11,7 +11,8 @@ router.get('/my-recipes/:owner', isAuth, getUserRecipes);
 
 router.get('/get-recipe', isAuth, getRecipe)
 
-router.delete('/delete', isAuth, deleteRecipe); 
-
 router.put('/update', isAuth, updateRecipe)
+
+router.delete('/delete/:id', isAuth, deleteRecipe); 
+
 export = router;
