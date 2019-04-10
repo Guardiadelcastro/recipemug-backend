@@ -5,23 +5,24 @@ export interface DTOIngredient {
 } 
 
 
-export interface DTORecipe {
-  uuid: string,
-  title: string,
-  description: string,
-  image: string,
-  ingredients: string[],
-  steps: string[],
-  updated: Date,
-  created: Date,
-  like: number,
-  stars: number, 
-  owner_id: string
-}
+// export interface DTORecipe {
+//   uuid: string,
+//   title: string,
+//   description: string,
+//   image: string,
+//   ingredients: string[],
+//   steps: string[],
+//   updated: Date,
+//   created: Date,
+//   like: number,
+//   stars: number, 
+//   owner: string
+// }
 
 
 export interface ModelIRecipe extends Document {
   _id: string;
+  slug: string,
   title: string,
   description: string,
   image: string,
@@ -31,10 +32,11 @@ export interface ModelIRecipe extends Document {
   created: Date,
   like: number,
   stars: number, 
-  owner_id: string
+  owner: string
 }
 
-const RecipeScheme: Schema = new Schema ({
+const RecipeSchema: Schema = new Schema ({
+  slug: {type: String, required: true, unique: true},
   title: { type: String, required: true },
   description: { type: String, required: true },
   image: { type: String, required: false},
@@ -44,7 +46,16 @@ const RecipeScheme: Schema = new Schema ({
   stars: { type: Number, default: 0 },
   updated: { type: Date, default: Date.now() },
   created: { type: Date,  default: Date.now()},
-  owner_id: { type: String, required: true}
+  owner: { type: String, required: true}
 });
 
-export const Recipe: Model<ModelIRecipe> = model<ModelIRecipe>('recipes', RecipeScheme);
+RecipeSchema.method('toClient', function() {
+  let obj = this.toObject();
+
+  //Rename fields
+  obj.id = obj._id;
+  delete obj._id;
+
+  return obj;
+});
+export const Recipe: Model<ModelIRecipe> = model<ModelIRecipe>('Recipes', RecipeSchema);

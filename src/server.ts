@@ -1,111 +1,58 @@
 import * as express from 'express';
-import * as path from 'path';
-//import * as favicon from 'serve-favicon';
-import * as morgan from 'morgan';
-import * as cookieParser from 'cookie-parser';
-import * as bodyParser from 'body-parser';
-
-//initializations
-import {connect} from 'mongoose';
 import * as passport from 'passport';
-import {configuration} from './passport/index';
-import * as routes from './routes/index';
+import { connect } from 'mongoose';
+import * as path from 'path';
+import * as morgan from 'morgan';
+import * as cors from 'cors';
+import * as helmet from 'helmet';
+// import * as favicon from 'serve-favicon';
+
+import config from './config/config'
 import * as users from './routes/users';
 import * as recipes from './routes/recipes';
-import {addUserId} from './passport/passport';
-import * as cors from 'cors';
+
+// Init Express app
 const app = express();
-
-
-const connectWithRetry = () => {
-  connect(configuration.database.local).then(() => {
-  console.log('connected')
-})
-.catch(() => {
-  console.log('Reintentando conexion in 5 seg');
-  setTimeout(connectWithRetry, 5000);
-});
-}
-connectWithRetry();
-
-
-
-// settings
+// Connect to DB
+connect(config.mongodb.URI, config.mongodb.options)
+      .then(() => console.log(`MongoDB is connected...`))
+      .catch(err => console.error(`MongoDB connection unsccessfull due to error: ${err}`));
 
 app.set('port', process.env.PORT || 3000);
 
 // middlewares
+app.use(helmet());
 app.use(cors());
 app.use(morgan('dev'));
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
-app.use(cookieParser());
+app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
+
 app.use(express.static(path.join(__dirname, 'public')));
 
-//init passport
-app.use(passport.initialize());
-addUserId(passport);
-
-
 // routes
-
-app.use('/recipes', recipes);
+app.get('/', (req, res) => res.send('Welcome to the recipemug api'));
+app.use('/api/recipes', recipes);
 app.use('/users', users);
-app.use('/home', routes);
-app.get('/favicon.ico', (req, res ) => {
-  res.send('');
-});
+
+// app.get('/favicon.ico', (req, res ) => {
+//   res.send('');
+// });
 
 // catch 404 and forward to error handler
 
-class MyError extends Error {  
+app.use((req, res, next) => {
+  const error: any = new Error('Not found');
+  error.status = 404;
+  next(error)
+})
 
-  private status: number;
-  constructor(message: string, status: number=500) {
-    super(message);
-    this.status;
-  }
-  getStatus() {
-    return this.status;
-  }
-}
-
-app.use(function(req, res, next) {
-
-var err = new MyError('Not Found', 404);
-  next(err);
-});
-// will print stacktrace
-if (app.get('env') === 'development') {
-  app.use(function(err, req, res, next) {
-    res.status(err.status || 500);
-    res.render('error', {
-      message: err.message,
-      error: err
-    });
-  });
-}
-
-// production error handler
-// no stacktraces leaked to user
-app.use(function(err: MyError|Error, req, res, next) {
-  if(err instanceof MyError) {
-    res.status(err.getStatus());
-  } else {
-    res.status(500);
-  }
-  
-  res.render('error', {
-    message: err.message,
-    error: {}
-  });
-});
-
-
-
-
+app.use((error, req, res, next) => {
+  res.status(error.status || 500).json({
+    error: {
+      message: error.message
+    }
+  })
+})
 
 // Starting the server
-app.listen(app.get('port'), () => {
-  console.log('server on port', app.get('port'));
-});
+app.listen(app.get('port'), () => console.log(`Server on port ${app.get('port')}`));
