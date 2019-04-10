@@ -4,7 +4,7 @@ set -xe
 if [ $TRAVIS_BRANCH == 'master' ] ; then
 
 mkdir deploy
-cp . deploy/
+cp * deploy/
 cd deploy
 rm -rf .vscode docs node_modules
 tar -czf package.tgz deploy
