@@ -4,7 +4,7 @@ set -xe
 if [ $TRAVIS_BRANCH == 'master' ] ; then
 
 rm -rf .vscode docs node_modules
-scp -r -C * $REMOTE_USER@$REMOTE_HOST:$REMOTE_PROD_DIR
+rsync -rauz * $REMOTE_USER@$REMOTE_HOST:$REMOTE_BACKEND_DIR
 
 ssh $REMOTE_USER@$REMOTE_HOST 'bash -s' < ./.scripts/start.sh
 
