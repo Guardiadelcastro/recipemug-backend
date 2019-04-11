@@ -10,7 +10,7 @@ branches:
   - master
 env:
   global:
-  - REMOTE_BACKEND_DIR=/var/backend
+  - REMOTE_BACKEND_DIR=/var/backend/express-api/
   - REMOTE_USER=travis
   - REMOTE_HOST=206.189.96.128
 before_install:
