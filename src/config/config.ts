@@ -11,7 +11,7 @@ const config = {
   },
   jwt: {
     secretOrKey: process.env.JWT_KEY ||'top_secret'
-  }
+  },
 }
 
 export default config
