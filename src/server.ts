@@ -4,7 +4,7 @@ import { connect } from 'mongoose';
 import * as path from 'path';
 import * as morgan from 'morgan';
 import * as cors from 'cors';
-import * as helmet from 'helmet';
+// import * as helmet from 'helmet';
 // import * as favicon from 'serve-favicon';
 
 import config from './config/config'
@@ -21,7 +21,7 @@ connect(config.mongodb.URI, config.mongodb.options)
 app.set('port', process.env.PORT || 3000);
 
 // middlewares
-app.use(helmet());
+// app.use(helmet());
 app.use(cors());
 app.use(morgan('dev'));
 app.use(express.json());
