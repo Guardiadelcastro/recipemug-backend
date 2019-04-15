@@ -12,15 +12,6 @@ const config = {
   jwt: {
     secretOrKey: process.env.JWT_KEY ||'top_secret'
   },
-  cors: {
-    whitelist: ['https://new.recipemug.club', 'https://recipemug.club'],
-    corsOptions: function (origin, callback) {
-      if (this.whitelist.indexOf(origin) !== -1) {
-        callback(null, true)
-      } else {
-        callback(new Error('Not allowed by CORS'))
-      }
-    }
-  }
 }
+
 export default config
