@@ -21,7 +21,10 @@ connect(config.mongodb.URI, config.mongodb.options)
 app.set('port', process.env.PORT || 3000);
 
 // middlewares
-app.use(cors());
+app.use(cors({
+  origin: config.cors.origin,
+  preflightContinue: true
+}));
 app.use(helmet());
 app.use(morgan('dev'));
 app.use(express.json());

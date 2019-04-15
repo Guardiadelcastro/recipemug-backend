@@ -12,6 +12,9 @@ const config = {
   jwt: {
     secretOrKey: process.env.JWT_KEY ||'top_secret'
   },
+  cors: {
+    origin: ['https://new.recipemug.club', 'https://api.recipemug.club', 'https://recipemug.club']
+  }
 }
 
 export default config
