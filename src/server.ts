@@ -21,9 +21,7 @@ connect(config.mongodb.URI, config.mongodb.options)
 app.set('port', process.env.PORT || 3000);
 
 // middlewares
-app.use(cors({
-  origin: 'https://new.recipemug.club'
-}));
+app.use(cors(config.cors.corsOptions));
 app.use(helmet());
 app.use(morgan('dev'));
 app.use(express.json());
