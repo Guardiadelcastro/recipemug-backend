@@ -29,6 +29,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, 'public')));
 
 // routes
+app.options('*', cors());
 app.get('/', (req, res) => res.send('Welcome to the recipemug api'));
 app.use('/api/recipes', recipes);
 app.use('/users', users);
