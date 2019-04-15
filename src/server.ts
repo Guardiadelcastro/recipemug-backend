@@ -1,9 +1,8 @@
 import * as express from 'express';
-import * as passport from 'passport';
 import { connect } from 'mongoose';
 import * as path from 'path';
 import * as morgan from 'morgan';
-// import * as cors from 'cors';
+import * as cors from 'cors';
 import * as helmet from 'helmet';
 // import * as favicon from 'serve-favicon';
 
@@ -21,18 +20,14 @@ connect(config.mongodb.URI, config.mongodb.options)
 app.set('port', process.env.PORT || 3000);
 
 // middlewares
-// app.use(cors(config.cors));
+app.use(cors(config.cors));
 app.use(helmet());
 app.use(morgan('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
 app.use(express.static(path.join(__dirname, 'public')));
-app.use((req, res, next) => {
-  res.header("Access-Control-Allow-Origin", "*");
-  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-  next();
-});
+
 // routes
 app.get('/', (req, res) => res.send('Welcome to the recipemug api'));
 app.use('/api/recipes', recipes);
