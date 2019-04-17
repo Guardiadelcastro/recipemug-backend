@@ -19,13 +19,7 @@ connect(config.mongodb.URI, config.mongodb.options)
 app.set('port', process.env.PORT || 3000);
 
 // middlewares
-app.use(cors({
-  origin: ['https://new.recipemug.club', 'https://api.recipemug.club', 'https://recipemug.club'],
-  allowedHeaders: ["Origin", "X-Requested-With", "Content-Type", "Accept", "X-Access-Token", "Authorization"],
-  credentials: true,
-  methods: "GET,HEAD,OPTIONS,PUT,POST,DELETE",
-  preflightContinue: false
-}));
+app.use(cors());
 app.use(morgan('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
