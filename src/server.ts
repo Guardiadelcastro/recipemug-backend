@@ -23,7 +23,7 @@ app.use(cors({
   origin: ['https://new.recipemug.club', 'https://api.recipemug.club', 'https://recipemug.club'],
   allowedHeaders: ["Origin", "X-Requested-With", "Content-Type", "Accept", "X-Access-Token", "Authorization"],
   credentials: true,
-  methods: "GET,HEAD,OPTIONS,PUT,PATCH,POST,DELETE",
+  methods: "GET,HEAD,OPTIONS,PUT,POST,DELETE",
   preflightContinue: false
 }));
 app.use(morgan('dev'));
