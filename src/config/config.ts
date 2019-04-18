@@ -14,7 +14,7 @@ const config = {
   },
   cors: {
     origin: ['https://new.recipemug.club', 'https://api.recipemug.club', 'https://recipemug.club'],
-    allowedHeaders: ["Origin", "X-Requested-With", "Content-Type", "Accept", "X-Access-Token"],
+    allowedHeaders: ["Origin", "X-Requested-With", "Content-Type", "Accept", "Authorization", "X-Access-Token"],
     credentials: true,
     methods: "GET,HEAD,OPTIONS,PUT,PATCH,POST,DELETE",
     preflightContinue: false
