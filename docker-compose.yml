@@ -1,5 +1,15 @@
-version: "2"
+version: "3"
 services:
+  mongo:
+    container_name: mongo-recipes
+    image: mongo:latest
+    restart: always
+    volumes:
+      - ../mongo-data:/data/db 
+    ports:
+      - "27017:27017"
+    hostname: mongo 
+    command: mongod --noauth
   app:
     container_name: api-recipes
     build: 
@@ -19,13 +29,4 @@ services:
     restart: always
     command: npm run start
 
-  mongo:
-    container_name: "mongodb"
-    image: mongo:latest
-    volumes:
-      - ../mongo-data:/data/db 
-    ports:
-      - "27017:27017"
-    hostname: mongo 
-    command: 
-      mongod
+  

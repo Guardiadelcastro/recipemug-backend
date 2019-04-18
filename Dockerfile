@@ -1,17 +1,19 @@
-FROM node:10
+FROM node:11-slim
 
 # create app directory in container
-RUN mkdir -p /app
+RUN mkdir -p /api
 
-# set /app directory as default working directory
-WORKDIR /app
+# set /api directory as default working directory
+WORKDIR /api
 
-ADD package.json package-lock.json /app/
+# copy package*.json (wildcard) to WORKDIR
+COPY package*.json ./
 
 RUN npm install --quiet
 
-# copy all file from current dir to /app in container
-COPY . /app/
+# copy all files to WORKDIR
+COPY . ./
 
-EXPOSE 3000 
-EXPOSE 27017
+EXPOSE 3000
+
+CMD [ "npm", "start" ]

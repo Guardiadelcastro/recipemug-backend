@@ -5,19 +5,19 @@ export interface DTOIngredient {
 } 
 
 
-// export interface DTORecipe {
-//   uuid: string,
-//   title: string,
-//   description: string,
-//   image: string,
-//   ingredients: string[],
-//   steps: string[],
-//   updated: Date,
-//   created: Date,
-//   like: number,
-//   stars: number, 
-//   owner: string
-// }
+export interface DTORecipe {
+  uuid: string,
+  title: string,
+  description: string,
+  image: string,
+  ingredients: string[],
+  steps: string[],
+  updated: Date,
+  created: Date,
+  like: number,
+  stars: number, 
+  owner: string
+}
 
 
 export interface ModelIRecipe extends Document {
