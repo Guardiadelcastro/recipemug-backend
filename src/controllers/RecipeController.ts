@@ -11,6 +11,10 @@ export async function createRecipe(req, res) {
       stars: 0
     })
     await newRecipe.save();
+    newRecipe.toObject();
+    newRecipe.id = newRecipe._id;
+    delete newRecipe._id;
+    delete newRecipe.__v;
     res.json({message: 'New recipe created', newRecipe})
   } catch(err) {
     res.status(400).json({err});
