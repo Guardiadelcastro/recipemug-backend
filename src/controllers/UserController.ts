@@ -90,7 +90,7 @@ export async function loginUser (req, res, next) {
       req.login(user, { session : false }, async (error) => {
         if( error ) {return next(error)}
         // Token Body
-        const body = { email: user.email, username: user.username };
+        const body = { username: user.username };
         // JWT options
         const options = {
           expiresIn: '24h'
@@ -104,7 +104,7 @@ export async function loginUser (req, res, next) {
         delete userData['_id'];
         delete userData['__v'];
         delete userData['password'];
-        return res.json({ userData, token, message: 'Login successful' });
+        return res.json({ token, message: 'Login successful' });
       });
     } catch (error) {
       return res.status(500).json({message: 'Error login in, check your email and password'});
