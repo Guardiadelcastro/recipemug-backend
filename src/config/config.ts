@@ -13,7 +13,7 @@ const config = {
     secretOrKey: process.env.JWT_KEY ||'top_secret'
   },
   cors: {
-    origin: ['https://new.recipemug.club', 'https://api.recipemug.club', 'https://recipemug.club'],
+    origin: ['https://new.recipemug.club', 'https://api.recipemug.club', 'https://recipemug.club', 'http://localhost:8008'],
     allowedHeaders: ["Origin", "X-Requested-With", "Content-Type", "Accept", "Authorization", "X-Access-Token"],
     credentials: true,
     methods: "GET,HEAD,OPTIONS,PUT,PATCH,POST,DELETE",

@@ -36,16 +36,16 @@ export interface ModelIRecipe extends Document {
 }
 
 const RecipeSchema: Schema = new Schema ({
-  slug: {type: String, required: true, unique: true},
   title: { type: String, required: true },
-  description: { type: String, required: true },
+  description: { type: String, required: false },
   image: { type: String, required: false},
-  ingredients: { type: [String],  required: true },
-  steps: { type: [String], required: true},
+  ingredients: { type: [String],  required: false },
+  steps: { type: [String], required: false},
   like: { type: Number, default: 0 },
   stars: { type: Number, default: 0 },
   updated: { type: Date, default: Date.now() },
   created: { type: Date,  default: Date.now()},
+  slug: {type: String, required: true, unique: true},
   owner: { type: String, required: true}
 });
 
